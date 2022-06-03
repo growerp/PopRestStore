@@ -13,8 +13,8 @@ along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
 <entity-facade-xml type="demo">
-    <!-- use a record like this to set a regex for hostname(s) that should map to a given store:
-    <mantle.product.store.ProductStoreSetting productStoreId="POPC_DEFAULT" settingTypeEnumId="PsstHostname" fromDate="1406670784000" settingValue=".*"/> -->
+    <!-- to always have the productStoreId available (Cuurency?)-->
+    <mantle.product.store.ProductStoreSetting productStoreId="POPC_DEFAULT" settingTypeEnumId="PsstHostname" fromDate="1406670784000" settingValue="localhost"/>
 
     <!-- TODO - move this somewhere else -->
     <mantle.product.store.ProductStoreShipOption carrierPartyId="_NA_" lastUpdatedStamp="1545005379532" productStoreId="POPC_DEFAULT" shipmentMethodEnumId="ShMthGround" sequenceNum="2"/>

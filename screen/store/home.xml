@@ -24,12 +24,21 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="productStoreId" from="stores[0].productStoreId"/>
         <entity-find-one entity-name="mantle.product.store.ProductStore" value-field="productStore"/>
         <set field="currencyUomId" from="productStore.defaultCurrencyUomId"/>
+
+        <!-- get productStore/currency from store setting -->
+        <entity-find entity-name="mantle.product.store.ProductStoreSetting" list="stores">
+            <econdition field-name="settingTypeEnumId" value="PsstHostname"/>
+            <econdition field-name="settingValue" from="ec.web.getHostName(false)"/>
+        </entity-find>
+        <set field="productStoreId" from="stores[0].productStoreId"/>
+        <entity-find-one entity-name="mantle.product.store.ProductStore" value-field="productStore"/>
+        <set field="currencyUomId" from="productStore.defaultCurrencyUomId"/>
     </pre-actions>
    
     <actions>
-
-         <!-- single products from those that has current price bellow then list price -->
-        <service-call name="popstore.ProductServices.find#CurrentPromoProduct" out-map="promoResult"/>
+        <!-- single products from those that has current price bellow then list price -->
+        <service-call name="popstore.ProductServices.find#CurrentPromoProduct"
+            in-map="[productStoreId: productStoreId]" out-map="promoResult"/>
         <set field="promoProduct" from="promoResult.product"/>
         <if condition="promoProduct">
             <!-- If the product with discount is a product variant then we have to use variant product id to get prices
@@ -60,7 +69,7 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
         <if condition="promoPscList">
             <service-call name="popstore.ProductServices.get#CategoryProducts" out-map="promoCatProdOut"
-                    in-map="[productCategoryId:promoPscList[0].productCategoryId]"/>
+                    in-map="[productStoreId: productStoreId, productCategoryId:promoPscList[0].productCategoryId]"/>
             <set field="promoProductList" from="promoCatProdOut.productList"/>
         </if>
        
@@ -71,7 +80,7 @@ along with this software (see the LICENSE.md file). If not, see
         </entity-find>
         <if condition="featPscList">
             <service-call name="popstore.ProductServices.get#CategoryProducts" out-map="featCatProdOut"
-                    in-map="[productCategoryId:featPscList[0].productCategoryId]"/>
+                    in-map="[productStoreId: productStoreId, productCategoryId:featPscList[0].productCategoryId]"/>
             <set field="featureProductList" from="featCatProdOut.productList"/>
         </if>
 

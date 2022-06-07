@@ -103,6 +103,9 @@ along with this software (see the LICENSE.md file). If not, see
             <!-- some content types may have more than one record, long description just has one -->
             <set field="descLongLocation" from="contentList.find({ 'PcntDescriptionLong' == it.productContentTypeEnumId })?.contentLocation"/>
             <if condition="descLongLocation"><set field="descriptionLong" from="ec.resource.getLocationText(descLongLocation, true)"/></if>
+            <if condition="!descriptionLong">
+                <set field="descriptionLong" from="product.description"/>
+            </if>
 
             <set field="descSmallLocation" from="contentList.find({ 'PcntDescription' == it.productContentTypeEnumId })?.contentLocation"/>
             <if condition="descSmallLocation"><set field="descriptionSmall" from="ec.resource.getLocationText(descSmallLocation, true)"/></if>
@@ -622,6 +625,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <service verb="get" noun="CategoryProducts">
         <in-parameters>
+            <parameter name="productStoreId"/>
             <parameter name="productCategoryId" required="true"/>
             <parameter name="priceUomId"/>
             <parameter name="locale"/>

@@ -60,7 +60,7 @@ along with this software (see the LICENSE.md file). If not, see
             <econdition field-name="settingTypeEnumId" value="PsstHostname"/>
             <econdition field-name="settingValue" from="ec.web.getHostName(false)"/>
         </entity-find>
-        <set field="productStoreId" from="stores[0].productStoreId"/>
+        <set field="productStoreId" value="${stores[0]?.productStoreId ? stores[0].productStoreId : 'POPC_DEFAULT'}"/>
         <entity-find-one entity-name="mantle.product.store.ProductStore" value-field="productStore"/>
         <set field="currencyUomId" from="productStore.defaultCurrencyUomId"/>
     </pre-actions>

@@ -90,10 +90,10 @@
                     </li>
                 <#else>
                     <li class="nav-item">
-                        <a href="/store/d#/account/create" class="nav-link">Join Now</a>
+                        <a href="/store/d#/account/create/${storeInfo.productStore.organizationPartyId}" class="nav-link">Join Now</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/store/d#/login" class="nav-link"><i class="fas fa-user"></i> Sign In</a>
+                        <a href="/store/d#/login/${storeInfo.productStore.organizationPartyId}" class="nav-link"><i class="fas fa-user"></i> Sign In</a>
                     </li>
                 </#if>
 
@@ -107,7 +107,7 @@
                     </#if>
                 <li class="nav-item">
                     <#if cartCount gt 0>
-                        <a class="nav-link" href="/store/d#/checkout">
+                        <a class="nav-link" href="/store/d#/checkout/${storeInfo.productStore.organizationPartyId}">
                     <#else>
                         <a class="nav-link pointer" data-toggle="modal" data-target="#emptyCartModal">
                     </#if>

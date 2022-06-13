@@ -11,7 +11,7 @@
                 <div class="form-group row">
                     <label for="" class=" col-form-label col-lg-3 col-sm-12 text-left">Email</label>
                     <div class="col-lg-9 col-sm-12">
-                        <input v-model="user.username" type="text" class="form-control" required>
+                        <input v-model="user.username" type="text" class="form-control" required name="username" id="username" autocomplete="username">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <button class="btn btn-login offset-lg-3 btn-block col-sm-12 col-lg-9" type="submit">Sign In</button>
-                <router-link :to="'/resetPassword'" tag="a">
+                <router-link :to="'/resetPassword/' + ownerPartyId" tag="a">
                     <span class="login-forgot mt-2 mb-5">Forgot Your Password?</span>
                 </router-link>
             </form>
@@ -30,7 +30,7 @@
             </div>
             <div class="new-customer col-sm-12 col-lg-5">
                 <h1 class="text-left">New Customer</h1>
-                <router-link :to="'/account/create'" tag="button" class="btn btn-create-account btn-block col-sm-12 col-lg-10">Create an Account</router-link>
+                <router-link :to="'/account/create/' + ownerPartyId" tag="button" class="btn btn-create-account btn-block col-sm-12 col-lg-10">Create an Account</router-link>
                 <p class="new-customer-text mt-3">
                     Don't have a POP Commerce Account? Don't worry. It's easy, free and only takes a minute.
                 </p>

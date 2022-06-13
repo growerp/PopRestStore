@@ -7,6 +7,7 @@ var ACCOUNT_UPDATED = "accountUpdated";
 storeComps.LoginPage = {
     name: "login",
     data: function() { return {
+        ownerPartyId: this.$route.params.ownerPartyId,
         homePath: "", user: {username: "", password: ""}, loginErrormessage: "", responseMessage : "", 
         passwordInfo: { username: "", oldPassword: "", newPassword: "", newPasswordVerify: "" },
         axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
@@ -123,6 +124,7 @@ storeComps.LoginPageTemplate = getPlaceholderRoute("template_client_login", "Log
 storeComps.ResetPasswordPage = {
     name: "reset-password",
     data: function() { return {
+        ownerPartyId: this.$route.params.ownerPartyId,
         homePath: "", data: { username: "" },
         passwordInfo: { username: "", oldPassword: "", newPassword: "", newPasswordVerify: "" },
         nextStep: 0, responseMessage: "",
@@ -393,8 +395,14 @@ storeComps.AccountPageTemplate = getPlaceholderRoute("template_client_account", 
 
 storeComps.CreateAccountPage = {
     name: "create-account",
-    data: function() { return {
-        homePath: "", accountInfo: {}, confirmPassword: "", errorMessage: "",
+    data: function() {
+        var accountInfo = {};
+        if(window.location.href.indexOf("localhost") >= 0) {
+            accountInfo = {firstName: 'John', lastName: 'Denver', emailAddress: 'test@example.com'};
+        }
+        accountInfo.ownerPartyId  = this.$route.params.ownerPartyId;
+        return {
+        homePath: "", accountInfo: accountInfo, confirmPassword: "", errorMessage: "",
         axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
                 "moquiSessionToken":this.$root.moquiSessionToken } }
     }; },
@@ -410,36 +418,23 @@ storeComps.CreateAccountPage = {
 
             if (this.accountInfo.firstName == null ||  this.accountInfo.firstName.trim() === ""
                   || this.accountInfo.lastName == null || this.accountInfo.lastName.trim() === ""
-                  || this.accountInfo.emailAddress == null || this.accountInfo.emailAddress.trim() === ""
-                  || this.accountInfo.newPassword == null || this.accountInfo.newPassword.trim() === ""
-                  || this.confirmPassword == null || this.confirmPassword.trim() === "") {
+                  || this.accountInfo.emailAddress == null || this.accountInfo.emailAddress.trim() === "") {
                 this.errorMessage = "Verify the required fields";
                 return;
             }
-            if (!expreg.test(this.accountInfo.newPassword)) {
-                this.errorMessage = "The password must have at least 8 characters, including a special character and a number.";
-                return;
-            }
+
             if (!emailValidation.test(this.accountInfo.emailAddress)) {
                 this.errorMessage = "Insert a valid email.";
                 return;
             }
-            if (this.accountInfo.newPassword.includes("<") || this.accountInfo.newPassword.includes(">")) {
-                this.errorMessage = "The Password can not contain the character < or > ";
-                return;
-            }
-            if (this.accountInfo.newPassword !== this.confirmPassword) {
-                this.errorMessage = "Passwords do not match";
-                return;
-            }
-
-            this.accountInfo.newPasswordVerify = this.confirmPassword;
 
             LoginService.createAccount(this.accountInfo, this.axiosConfig).then(function (data) {
-                var event = new CustomEvent(ACCOUNT_CREATED, { detail : {"firstName": this.accountInfo.firstName.trim(), "lastName": this.accountInfo.lastName.trim(),
-                "emailAddress": this.accountInfo.emailAddress.trim()}});
+                var event = new CustomEvent(ACCOUNT_CREATED, { 
+                    detail : {  "firstName": this.accountInfo.firstName.trim(),
+                                "lastName": this.accountInfo.lastName.trim(),
+                                "emailAddress": this.accountInfo.emailAddress.trim()}});
                 window.dispatchEvent(event);
-                this.login(this.accountInfo.emailAddress, this.accountInfo.newPassword);
+                this.$router.push({ name: 'login'});
             }.bind(this)).catch(function (error) {
                 if(!!error.response && !!error.response.headers){
                     this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;

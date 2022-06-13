@@ -6,19 +6,19 @@ var appObjects = {
     router: new VueRouter({
         // TODO sooner or later: base: storeConfig.basePath, mode: 'history',
         routes: [
-            { path: "/login", name: "login", component: storeComps.LoginPageTemplate, 
+            { path: "/login/:ownerPartyId/:step?", name: "login", component: storeComps.LoginPageTemplate, 
                beforeEnter: function(to, from, next){
                     preLoginRoute = from;
                     next();
                } },
-            { path: "/checkout/:step?", name: "checkout", component: storeComps.CheckOutPageTemplate },
+            { path: "/checkout/:ownerPartyId/:step?", name: "checkout", component: storeComps.CheckOutPageTemplate },
             { path: "/checkout/success/:orderId", name: "successcheckout", component: storeComps.SuccessCheckOutTemplate },
             { path: "/orders/:orderId", name: "order", component: storeComps.CustomerOrderPageTemplate },
             { path: "/orders", name: "orders", component: storeComps.CustomerOrdersPageTemplate },
             { path: "/account", name: "account", component: storeComps.AccountPageTemplate },
-            { path: "/account/create", name: "createaccount", component: storeComps.CreateAccountPageTemplate },
-            { path: "/resetPassword", name: "resetPassword", component: storeComps.ResetPasswordTemplate },
-            { path: "/", redirect: "/login" }
+            { path: "/account/create/:ownerPartyId", name: "createaccount", component: storeComps.CreateAccountPageTemplate },
+            { path: "/resetPassword/:ownerPartyId", name: "resetPassword", component: storeComps.ResetPasswordTemplate },
+            { path: "/", redirect: "/login/:ownerPartyId/:step?" }
         ]
     }),
     App: {

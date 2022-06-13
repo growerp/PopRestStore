@@ -37,20 +37,15 @@
                 </div>
                 <div class="form-group row">
                     <label for="" class=" col-form-label col-sm-3 text-left">
-                        Password *
+                        Company Name (Opt)
                     </label>
                     <div class="col-sm-7">
-                        <input type="password" v-model="accountInfo.newPassword" class="form-control">
+                        <input type="text" v-model="accountInfo.companyName" class="form-control">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="" class=" col-form-label col-sm-3 text-left">
-                        Confirm Password
-                    </label>
-                    <div class="col-sm-7">
-                        <input type="password" v-model="confirmPassword" class="form-control">
-                    </div>
-                </div>
+                <p class="offset-sm-3 col-sm-7" style="font-size: 0.9em; color: orange;">
+                    A password will be sent to your email Address.
+                </p>
                 <button class="btn btn-login offset-sm-3 col-sm-7" type="submit">
                     Create Account
                 </button>
@@ -60,7 +55,7 @@
             </div>
             <div class="col col-lg-3">
                 <p class="already-text">Already have an account?</p>
-                <router-link :to="'/login'" tag="a">
+                <router-link :to="'/login/' + accountInfo.ownerPartyId" tag="a">
                     <p class="sign-in">Sign in here</p>
                 </router-link>
             </div>

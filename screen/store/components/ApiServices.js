@@ -8,7 +8,15 @@ var GeoService = {
 var LoginService = {
     login: function(user, headers) { return axios.post("/rest/s1/pop/login", user, headers).then(function (response) { return response.data; }); },
     loginFB: function(user, headers) { return axios.post("/rest/s1/pop/loginFB", user, headers).then(function (response) { return response.data; }); },
-    createAccount: function(account, headers) { return axios.post("/rest/s1/pop/register", account, headers).then(function (response) { return response.data; }); },
+    createAccount: function(account, headers) {
+      if (account.companyName == null)
+        account.companyName = account.firstName + ' ' + account.lastName;
+      account.classificationId = 'AppEcommerceShop';
+      account.user = {email: account.emailAddress, firstName: account.firstName, lastName: account.lastName,
+                      userGroupId: 'GROWERP_M_CUSTOMER', companyName: account.companyName,
+                      loginName: account.emailAddress,
+                      }
+      return axios.post("/rest/s1/growerp/100/RegisterUser", account, headers).then(function (response) { return response.data; }); },
     logout: function() { return axios.get("/rest/s1/pop/logout").then(function (response) { return response.data; }); },
     resetPassword: function(username, headers) { return axios.post("/rest/s1/pop/resetPassword", username, headers).then(function (response) { return response.data; }); }
 };

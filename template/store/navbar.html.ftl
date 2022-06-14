@@ -6,7 +6,7 @@
             <#assign headerLogoList = sri.getThemeValues("STRT_HEADER_LOGO")>
             <#if headerLogoList?has_content>
                 <a href="${sri.buildUrl("/store").getUrl()}" class="navbar-brand d-none d-sm-block">
-                    <img height="60px" class="moqui-dynamic" src="${sri.buildUrl(headerLogoList?first).getUrl()}" alt="Home">
+                    <img height="60px" class="moqui-dynamic" src="/store/getLogo" alt="Home">
                     <span class="font-italic navbar-title">${storeInfo.productStore.storeName}</span>
                 </a>
             </#if>

@@ -31,6 +31,21 @@ along with this software (see the LICENSE.md file). If not, see
         </if>
     </always-actions>
 
+    <transition name="getLogo" read-only="true">
+        <actions>
+            <entity-find entity-name="mantle.party.PartyContent" list="partyContentList" cache="true">
+                <econdition field-name="partyContentTypeEnumId" value="PcntLogoImage"/>
+                <econdition field-name="partyId" from="productStore.organizationPartyId"/>
+            </entity-find>
+            <if condition="partyContentList">
+                <script>ec.web.sendResourceResponse(partyContentList[0].contentLocation, true)</script>
+                <else>
+                    <script>ec.web.sendResourceResponse("dbresource://GrowERP/images/growerp_logo.jpg", true)</script>
+                </else>
+            </if>
+        </actions><default-response type="none"/>
+    </transition>
+
     <transition name="config.js" read-only="true">
         <actions>
             <script><![CDATA[

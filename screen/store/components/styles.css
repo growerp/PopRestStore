@@ -18,7 +18,7 @@ a:hover { text-decoration: none; }
 /* Navbar */
 .moqui-navbar { width: 100%; background: #333333; text-align: center !important; }
 .bg-dark { background: #333333 !important; }
-.moqui-navbar .moqui-logo { width: 101px; }
+.moqui-navbar .moqui-logo { width: 50px; height: 50; margin-top: 10px; margin-right: 30px;}
 .moqui-logo1 { margin-top: -30px; margin-left: -10px; }
 
 .moqui-dynamic { width: 60px; margin-top: -20px; margin-left: -10px; margin-right: 30px; }

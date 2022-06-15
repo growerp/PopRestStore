@@ -24,9 +24,9 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="productStore" from="storeInfo.productStore"/>
         <set field="wikiSpaceId" from="productStore?.wikiSpaceId"/>
 
-        <if condition="ec.user.userId">
+        <if condition="ec.user.userAccount">
             <entity-find-one entity-name="mantle.party.PartyDetail" value-field="partyDetail">
-                <field-map field-name="partyId" from="ec.user.userId"/>
+                <field-map field-name="partyId" from="ec.user.userAccount.partyId"/>
             </entity-find-one>
         </if>
     </always-actions>

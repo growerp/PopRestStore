@@ -6,9 +6,14 @@ var ACCOUNT_UPDATED = "accountUpdated";
 
 storeComps.LoginPage = {
     name: "login",
-    data: function() { return {
+    data: function() {
+        var user = {username: "", password: ""};
+        if(window.location.href.indexOf("localhost") >= 0) {
+            user = { username: 'test10@example.com', password: 'qqqqqqqq9!'};
+        }
+        return {
         ownerPartyId: this.$route.params.ownerPartyId,
-        homePath: "", user: {username: "", password: ""}, loginErrormessage: "", responseMessage : "", 
+        homePath: "", user: user, loginErrormessage: "", responseMessage : "", 
         passwordInfo: { username: "", oldPassword: "", newPassword: "", newPasswordVerify: "" },
         axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
                 "moquiSessionToken": this.$root.moquiSessionToken } }

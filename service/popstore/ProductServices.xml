@@ -55,6 +55,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <if condition="!priceUomId"><set field="priceUomId" from="productStore?.defaultCurrencyUomId"/></if>
                 <set field="vendorPartyId" from="productStore?.organizationPartyId"/>
             </if>
+            <log message="==========getting price with currency: $priceUomId"/>
             <service-call name="mantle.product.PriceServices.get#ProductPrice" out-map="priceMap"
                     in-map="[productId:productId, priceUomId:priceUomId, productStoreId:productStoreId,
                         vendorPartyId:vendorPartyId, customerPartyId:customerPartyId]"/>

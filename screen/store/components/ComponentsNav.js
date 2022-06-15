@@ -147,10 +147,10 @@ storeComps.ModalAddress = {
                 this.cityErrorMessage = "Please enter a city";
                 error = true;
             } 
-            if (this.shippingAddress.stateProvinceGeoId == null || this.shippingAddress.stateProvinceGeoId.trim() === "") {
-                this.stateErrorMessage = "Please enter a state";
-                error = true;
-            } 
+//            if (this.shippingAddress.stateProvinceGeoId == null || this.shippingAddress.stateProvinceGeoId.trim() === "") {
+//                this.stateErrorMessage = "Please enter a state";
+//                error = true;
+//            }
             if (this.shippingAddress.postalCode == null || this.shippingAddress.postalCode.trim() === "") {
                 this.postalCodeErrorMessage = "Please enter a postcode";
                 error = true;
@@ -316,10 +316,10 @@ storeComps.ModalCreditCard = {
                 this.cityErrorMessage = "Please enter a city";
                 error = true;
             }
-            if (this.paymentMethod.stateProvinceGeoId == null || this.paymentMethod.stateProvinceGeoId.trim() === "") {
-                this.stateErrorMessage = "Please enter a state";
-                error = true;
-            }
+//            if (this.paymentMethod.stateProvinceGeoId == null || this.paymentMethod.stateProvinceGeoId.trim() === "") {
+//                this.stateErrorMessage = "Please enter a state";
+//                error = true;
+//            }
             if (this.paymentMethod.postalCode == null || this.paymentMethod.postalCode.trim() === "") {
                 this.postalCodeErrorMessage = "Please enter a postcode";
                 error = true;

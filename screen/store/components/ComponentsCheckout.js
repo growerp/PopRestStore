@@ -198,7 +198,7 @@ storeComps.CheckOutPage = {
                         this.postalAddressStateGeoSelected = data.postalAddressStateGeo;
                         this.addressOption = data.postalAddress.contactMechId + ':' + data.postalAddress.telecomContactMechId;
                         this.shippingAddressSelect = data.postalAddress;
-                        this.shippingAddressSelect.contactNumber = data.telecomNumber.contactNumber;
+//                        this.shippingAddressSelect.contactNumber = data.telecomNumber.contactNumber;
                     } else if (this.listShippingAddress.length) {
                         // Preselect first address
                         this.addressOption = this.listShippingAddress[0].postalContactMechId + ':' + this.listShippingAddress[0].telecomContactMechId;

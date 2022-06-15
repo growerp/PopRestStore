@@ -80,11 +80,16 @@
             </div>
             <template v-if="isUpdate || paymentAddressOption == 'NEW_ADDRESS'">
                 <div class="form-group row justify-content-between">
-                    <label class="col-form-label modal-text ml-3">
+                    <label for="cc-country" class="col-form-label modal-text ml-3">
                         Country<span>&nbsp;*</span>
                     </label>
                     <div class="col-sm-8 col-xs-12">
-                        <input class="form-control" value="United States" readonly>
+                        <select id="cc-country" v-model="paymentMethod.countryGeoId" class="form-control">
+                            <option v-for="country in countriesList" :value="country.geoId">{{country.geoName}}</option>
+                        </select>
+                        <div v-if="!paymentMethod.countryGeoId && countryErrorMessage != ''">
+                            <small class="input-text form-text text-danger">{{countryErrorMessage}}</small>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row justify-content-between">

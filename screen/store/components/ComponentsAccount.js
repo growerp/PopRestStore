@@ -1,5 +1,5 @@
 /* This software is in the public domain under CC0 1.0 Universal plus a Grant of Patent License. */
-var STORE_COUNTRY = "USA";
+var STORE_COUNTRY = "THA";
 var ACCOUNT_CREATED = "accountCreated";
 var ACCOUNT_UPDATED = "accountUpdated";
 
@@ -223,7 +223,7 @@ storeComps.AccountPage = {
             this.shippingAddress = {};
             this.paymentAddressOption = {};
             this.isUpdate = false;
-            this.shippingAddress.countryGeoId = 'USA';
+            this.shippingAddress.countryGeoId = 'THA';
         },
         updateCustomerInfo: function() {
             if (this.customerInfo.username == null || this.customerInfo.username.trim() === "") {
@@ -257,6 +257,8 @@ storeComps.AccountPage = {
             this.customerInfo.firstName = data.firstName;
             this.customerInfo.lastName = data.lastName;
             this.customerInfo.emailAddress = data.emailAddress;
+            this.customerInfo.companyName = data.companyName;
+            this.customerInfo.companyPartyId = data.companyPartyId;
             this.customerInfo.contactMechId = data.telecomNumber ? data.telecomNumber.contactMechId : "";
             this.customerInfo.contactNumber = data.telecomNumber ? data.telecomNumber.contactNumber : "";
         },
@@ -309,7 +311,7 @@ storeComps.AccountPage = {
                 this.hideModal("modal4");
             }.bind(this));
         },
-        getCountries: function() { GeoService.getCountries().then(function (data) { this.countriesList = data.geoList; }.bind(this)); },
+        getCountries: function() { GeoService.getCountries().then(function (data) { this.countriesList = data.resultList; }.bind(this)); },
         getRegions: function(geoId) { GeoService.getRegions(geoId).then(function (data){ this.regionsList = data.resultList; }.bind(this)); },
         getLocale: function() { GeoService.getLocale().then(function (data) { this.localeList = data.localeStringList; }.bind(this)); },
         getTimeZone: function() { GeoService.getTimeZone().then(function (data) { this.timeZoneList = data.timeZoneList; }.bind(this)); },
@@ -351,6 +353,7 @@ storeComps.AccountPage = {
             this.paymentMethod.stateProvinceGeoId = method.postalAddress.stateProvinceGeoId;
 
             this.getRegions(STORE_COUNTRY);
+            this.getCountries();
 
             this.paymentMethod.cardSecurityCode = "";
             this.responseMessage = "";

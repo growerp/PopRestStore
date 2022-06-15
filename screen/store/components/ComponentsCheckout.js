@@ -435,7 +435,7 @@ storeComps.CheckOutPage = {
             this.paymentMethod = {};
             this.shippingAddress = {};
             this.isUpdate = false;
-            this.shippingAddress.countryGeoId = 'USA';
+            this.shippingAddress.countryGeoId = 'THA';
         },
         clearCvv: function () {
             this.cvv = "";

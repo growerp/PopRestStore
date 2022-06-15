@@ -42,12 +42,13 @@
                         <div class="form-group row justify-content-between">
                             <label for="country" class="col-form-label modal-text ml-3">Country</label>
                             <div class="col-sm-8 col-xs-12">
-                                <input id="country"
+                                <select id="country"
                                         type="hidden"
                                         v-model="shippingAddress.countryGeoId"
                                         @change="getRegions(shippingAddress.countryGeoId)"
                                         @focus="resetCountryErrorMessage(shippingAddress.countryGeoId)">
-                                <input class="form-control" type="text" value="United States" readonly/>
+                                    <option v-for="country in countriesList" :value="country.geoId">{{country.geoName.substring(0,33)}}</option>
+                                </select>
                                 <div v-if="countryErrorMessage != null && countryErrorMessage != ''">
                                     <small class="input-text form-text text-danger">{{countryErrorMessage}}</small>
                                 </div>

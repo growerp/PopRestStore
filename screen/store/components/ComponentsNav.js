@@ -77,6 +77,7 @@ storeComps.ModalAddress = {
       postalCodeErrorMessage: "",
       stateErrorMessage: "",
       contactNumberErrorMessage: "",
+      countriesList: [],
       regionsList: [],
       disabled: false
     }; },
@@ -87,6 +88,9 @@ storeComps.ModalAddress = {
       }
     },
     methods: {
+        getCountries: function() {
+            GeoService.getCountries().then(function (data){ this.countriesList = data.geoList; }.bind(this));
+        },
         getRegions: function(geoId) { 
             GeoService.getRegions(geoId).then(function (data){ this.regionsList = data.resultList; }.bind(this));
         },
@@ -186,7 +190,8 @@ storeComps.ModalAddress = {
     mounted: function() {
       var vm = this;
       this.disabled = false;
-      this.shippingAddress.countryGeoId = 'USA';
+      this.shippingAddress.countryGeoId = 'THA';
+      this.getCountries();
       this.getRegions(this.shippingAddress.countryGeoId);
       $('#addressModal').on('show.bs.modal', function(e) { vm.reset() });
       $('#addressFormModal').on('show.bs.modal', function(e) { vm.reset() });
@@ -214,6 +219,7 @@ storeComps.ModalCreditCard = {
       postalCodeErrorMessage: "",
       stateErrorMessage: "",
       contactNumberErrorMessage: "",
+      countriesList: [],
       regionsList: [],
       disabled: true,
       cardNumberIsInvalid: false,
@@ -225,8 +231,11 @@ storeComps.ModalCreditCard = {
       }
     },
     methods: {
-        getRegions: function(geoId) { 
+        getRegions: function(geoId) {
             GeoService.getRegions(geoId).then(function (data){ this.regionsList = data.resultList; }.bind(this));
+        },
+        getCountries: function() { 
+            GeoService.getCountries().then(function (data){ this.countriesList = data.geoList; }.bind(this));
         },
         initializeAddress: function(){
           this.$set(this.paymentMethod, 'address1', '');
@@ -255,6 +264,7 @@ storeComps.ModalCreditCard = {
                 this.paymentMethod.stateProvinceGeoId = address.postalAddress.stateProvinceGeoId;
                 this.responseMessage = "";
             }
+            this.getCountries();
             this.getRegions(STORE_COUNTRY);
         },
         addCustomerPaymentMethod: function(event) {

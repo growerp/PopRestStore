@@ -302,7 +302,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <service-call name="mantle.party.PartyServices.update#Account" in-map="context"/>
 
-            <service-call name="mantle.party.ContactServices.store#PartyContactInfo" in-map="[partyId:partyId, telecomContactMechPurposeId: 'PhonePrimary', contactNumber: contactNumber, contactMechId: contactMechId]"
+            <service-call name="mantle.party.ContactServices.store#PartyContactInfo" in-map="[partyId:companyPartyId, telecomContactMechPurposeId: 'PhonePrimary', contactNumber: contactNumber, contactMechId: contactMechId]"
                 out-map="context"/>
 
             <service-call name="popstore.CustomerServices.get#CustomerInfo" out-map="customerInfo"/>
@@ -334,8 +334,16 @@ along with this software (see the LICENSE.md file). If not, see
             <set field="partyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.customerPartyId"/>
             <if condition="!partyId"><return message="No active customer"/></if>
 
+            <!-- get related company -->
+            <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
+                <econdition field-name="fromPartyId" from="partyId"/>
+                <date-filter/>
+            </entity-find>
+            <if condition="rel">
+                <set field="companyPartyId" from="rel[0].toPartyId"/>
+            </if>
             <service-call name="mantle.account.PaymentMethodServices.get#PartyPaymentMethodInfoList"
-                    in-map="[partyId:partyId]" out-map="context"/>
+                    in-map="[partyId:companyPartyId]" out-map="context"/>
         </actions>
     </service>
     <service verb="store" noun="CreditCard">
@@ -378,7 +386,7 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <service-call name="popstore.CartServices.get#ActiveOrderAndCustomer" out-map="context"/>
             <if condition="!customerPartyId"><return message="No active customer"/></if>
-            <set field="partyId" from="customerPartyId"/>
+            <set field="partyId" from="companyPartyId"/>
             <set field="orderId" from="cartOrderId"/>
 
             <!-- TODO: if no customerPartyId call service to create one now and set in session (no user account aka 'anonymous') -->
@@ -415,8 +423,16 @@ along with this software (see the LICENSE.md file). If not, see
             <set field="partyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.customerPartyId"/>
             <if condition="!partyId"><return message="No active customer"/></if>
 
+            <!-- get related company -->
+            <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
+                <econdition field-name="fromPartyId" from="partyId"/>
+                <date-filter/>
+            </entity-find>
+            <if condition="rel">
+                <set field="companyPartyId" from="rel[0].toPartyId"/>
+            </if>
             <service-call name="mantle.party.ContactServices.get#PartyContactInfoList" out-map="shippingContactListInfo"
-                    in-map="[partyId:partyId, postalContactMechPurposeId:'PostalShippingDest']"/>
+                    in-map="[partyId:companyPartyId, postalContactMechPurposeId:'PostalShippingDest']"/>
 
             
             <set field="postalAddressList" from="shippingContactListInfo.postalAddressList"/>
@@ -426,7 +442,7 @@ along with this software (see the LICENSE.md file). If not, see
     <service verb="store" noun="ShippingAddress">
         <in-parameters>
             <parameter name="postalContactMechId"/>
-            <parameter name="postalContactMechPurposeId" default-value="PostalShippingDest"/>
+            <parameter name="postalContactMechPurposeId" default-value="PostalPrimary"/>
             <auto-parameters entity-name="mantle.party.contact.PostalAddress" include="nonpk"/>
             <parameter name="address1" required="true"/>
             <parameter name="postalCode" required="true"/>
@@ -452,7 +468,7 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <service-call name="popstore.CartServices.get#ActiveOrderAndCustomer" out-map="context"/>
             <if condition="!customerPartyId"><return message="No active customer"/></if>
-            <set field="partyId" from="customerPartyId"/>
+            <set field="partyId" from="companyPartyId"/>
             <set field="orderId" from="cartOrderId"/>
 
             <!-- TODO: if no customerPartyId call service to create one now and set in session (no user account aka 'anonymous') -->
@@ -471,7 +487,7 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <service-call name="popstore.CartServices.get#ActiveOrderAndCustomer" out-map="context"/>
             <if condition="!customerPartyId"><return message="No active customer"/></if>
-            <set field="partyId" from="customerPartyId"/>
+            <set field="partyId" from="companyPartyId"/>
             <set field="orderId" from="cartOrderId"/>
 
             <service-call name="mantle.party.ContactServices.delete#PartyContactMech" in-map="context"/>

@@ -7,10 +7,7 @@ var ACCOUNT_UPDATED = "accountUpdated";
 storeComps.LoginPage = {
     name: "login",
     data: function() {
-        var user = {username: "", password: ""};
-        if(window.location.href.indexOf("localhost") >= 0) {
-            user = { username: 'test10@example.com', password: 'qqqqqqqq9!'};
-        }
+        var user = {username: this.$root.username, password: ""};
         return {
         ownerPartyId: this.$route.params.ownerPartyId,
         homePath: "", user: user, loginErrormessage: "", responseMessage : "", 
@@ -42,8 +39,8 @@ storeComps.LoginPage = {
             }.bind(this))
             .catch(function (error) { 
                 if(!!error.response && !!error.response.headers){
-                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
-                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquiSessionToken;
+                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
                 }                
                 this.loginErrormessage = error.response.data.errors; 
             }.bind(this));
@@ -179,8 +176,8 @@ storeComps.ResetPasswordPage = {
                 this.$router.push({ name: 'account'});
             }.bind(this)).catch(function (error) {
                 if(!!error.response && !!error.response.headers){
-                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
-                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquiSessionToken;
+                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
                 }
             }.bind(this));
         }
@@ -407,12 +404,13 @@ storeComps.CreateAccountPage = {
         var accountInfo = {};
         if(window.location.href.indexOf("localhost") >= 0) {
             accountInfo = {firstName: 'John', lastName: 'Denver', emailAddress: 'test@example.com'};
+            if(this.$root.username) accountInfo.emailAddres = this.$root.username;
         }
         accountInfo.ownerPartyId  = this.$route.params.ownerPartyId;
         return {
         homePath: "", accountInfo: accountInfo, confirmPassword: "", errorMessage: "",
         axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
-                "moquiSessionToken":this.$root.moquiSessionToken } }
+                "moquiSessionToken": this.$root.moquiSessionToken } }
     }; },
     methods: {
         createAccount: function(event){
@@ -435,7 +433,7 @@ storeComps.CreateAccountPage = {
                 this.errorMessage = "Insert a valid email.";
                 return;
             }
-
+            this.$root.username = this.accountInfo.emailAddress;
             LoginService.createAccount(this.accountInfo, this.axiosConfig).then(function (data) {
                 var event = new CustomEvent(ACCOUNT_CREATED, { 
                     detail : {  "firstName": this.accountInfo.firstName.trim(),
@@ -445,8 +443,7 @@ storeComps.CreateAccountPage = {
                 this.$router.push({ name: 'login'});
             }.bind(this)).catch(function (error) {
                 if(!!error.response && !!error.response.headers){
-                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
-                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
                 }
                 this.errorMessage = "An error occurred: " + error.response.data.errors;
             }.bind(this));
@@ -465,8 +462,7 @@ storeComps.CreateAccountPage = {
                 
             }.bind(this)).catch(function (error) {
                 if(!!error.response && !!error.response.headers){
-                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
-                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
                 }
                 this.errorMessage = error.response.data.errors;
             }.bind(this));

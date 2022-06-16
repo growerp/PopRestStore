@@ -65,7 +65,6 @@ along with this software (see the LICENSE.md file). If not, see
              out-map="productStoreIdContext"/>
         <set field="productStoreId" value="${productStoreIdContext.productStoreId ?: 'POPC_DEFAULT'}"/>
         <set field="currencyUomId" from="productStoreIdContext.defaultCurrencyUomId"/>
-        <log message="========curr: $currencyUomId"/>
 
      	<set field="star" from="5"/>
         <set field="imgContent" from="[]"/>
@@ -104,7 +103,6 @@ along with this software (see the LICENSE.md file). If not, see
         </if>
     </pre-actions>
     <actions>
-        <log message="======product currency request: ${currencyUomId}"/>
         <service-call name="popstore.ProductServices.get#ProductInfo" out-map="product" in-map="[productId:productId, priceUomId: currencyUomId]"/>
         <service-call name="popstore.ProductServices.get#ProductQuantity" out-map="productQuantity" in-map="[productId:productId]"/>
         <service-call name="popstore.ProductServices.get#ProductReviews" out-map="reviewsList" in-map="[productId:productId]"/>

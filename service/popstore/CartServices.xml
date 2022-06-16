@@ -348,6 +348,7 @@ General Order Placement and eCommerce Usage
             <parameter name="productStoreId"/>
             <parameter name="cartOrderId"/>
             <parameter name="customerPartyId"/>
+            <parameter name="companyPartyId"/>
         </out-parameters>
         <actions>
             <!-- NOTE: use the web session for attributes such as cartOrderId for security; this won't work in a stateless mode or outside a web session -->
@@ -359,6 +360,15 @@ General Order Placement and eCommerce Usage
 
             <set field="customerPartyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.customerPartyId"/>
             <set field="sessionAttributes.customerPartyId" from="customerPartyId"/>
+
+            <!-- get related company -->
+            <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
+                <econdition field-name="fromPartyId" from="customerPartyId"/>
+                <date-filter/>
+            </entity-find>
+            <if condition="rel">
+                <set field="companyPartyId" from="rel[0].toPartyId"/>
+            </if>
 
             <if condition="!cartOrderId &amp;&amp; customerPartyId">
                 <!-- see if there is an open order for user and get that ID into session -->

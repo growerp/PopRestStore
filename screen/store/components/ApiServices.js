@@ -14,7 +14,7 @@ var LoginService = {
       account.classificationId = 'AppEcommerceShop';
       account.user = {email: account.emailAddress, firstName: account.firstName, lastName: account.lastName,
                       userGroupId: 'GROWERP_M_CUSTOMER', companyName: account.companyName,
-                      loginName: account.emailAddress,
+                      loginName: account.emailAddress, password: account.password,
                       }
       return axios.post("/rest/s1/growerp/100/RegisterUser", account, headers).then(function (response) { return response.data; }); },
     logout: function() { return axios.get("/rest/s1/pop/logout").then(function (response) { return response.data; }); },

@@ -8,6 +8,9 @@ storeComps.LoginPage = {
     name: "login",
     data: function() {
         var user = {username: this.$root.username, password: ""};
+        if(window.location.href.indexOf("localhost") >= 0) {
+            user.password = 'qqqqqq9!';
+        }
         return {
         ownerPartyId: this.$route.params.ownerPartyId,
         homePath: "", user: user, loginErrormessage: "", responseMessage : "", 
@@ -405,6 +408,7 @@ storeComps.CreateAccountPage = {
         if(window.location.href.indexOf("localhost") >= 0) {
             accountInfo = {firstName: 'John', lastName: 'Denver', emailAddress: 'test@example.com'};
             if(this.$root.username) accountInfo.emailAddres = this.$root.username;
+            accountInfo.password = 'qqqqqq9!';
         }
         accountInfo.ownerPartyId  = this.$route.params.ownerPartyId;
         return {

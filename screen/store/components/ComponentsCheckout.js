@@ -60,7 +60,7 @@ storeComps.CheckOutPage = {
             countriesList: [], regionsList: [], shippingOption: "", addressOption: "", paymentOption: "", isSameAddress: "0", shippingItemPrice: 0,
             isUpdate: false, isSpinner: false, responseMessage: "", toNameErrorMessage: "", countryErrorMessage: "", addressErrorMessage: "", 
             cityErrorMessage: "", stateErrorMessage: "", postalCodeErrorMessage: "", contactNumberErrorMessage: "", paymentId: 0, 
-            freeShipping:false, promoSuccess: "", loading: false, mouseInPopover: false,
+            freeShipping:false, promoSuccess: "", loading: false, mouseInPopover: false, currencyFormat: "",
             listShippingOptions: [],  axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
             "api_key":this.$root.apiKey, "moquiSessionToken":this.$root.moquiSessionToken } }
         };
@@ -194,11 +194,12 @@ storeComps.CheckOutPage = {
         getCartInfo: function() {
             new Promise( function(resolve) {
                 ProductService.getCartInfo(this.axiosConfig).then(function (data) {
+                    this.currencyFormat = new Intl.NumberFormat('en-US', { style: 'currency', currency: data.orderHeader.currencyUomId });
                     if (data.postalAddress) {
                         this.postalAddressStateGeoSelected = data.postalAddressStateGeo;
                         this.addressOption = data.postalAddress.contactMechId + ':' + data.postalAddress.telecomContactMechId;
                         this.shippingAddressSelect = data.postalAddress;
-//                        this.shippingAddressSelect.contactNumber = data.telecomNumber.contactNumber;
+                        this.shippingAddressSelect.contactNumber = data.telecomNumber.contactNumber;
                     } else if (this.listShippingAddress.length) {
                         // Preselect first address
                         this.addressOption = this.listShippingAddress[0].postalContactMechId + ':' + this.listShippingAddress[0].telecomContactMechId;

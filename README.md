@@ -1,5 +1,19 @@
 # POP REST Store - eCommerce REST API and Web App
 
+This cloned version is debugged and made suitable to use with the [GrowERP administrator](https://github.com/growerp/growerp) frontend which can be used as the administrator.
+
+The original version of the PopRestStore is still in the master branch, while the updated version is in the growerp branch, which should be used with the mentioned GrowERP system.
+
+A big thanks for the original developers!
+
+Major changes:
+1. multi organizational companies
+2. support different currencies ([needs mantle-usl change](https://github.com/moqui/mantle-usl/pull/188))
+3. various fault fixes
+4. customers have related company
+5. orders on company partyId, customer person on orderpartparty entity
+6. uses a Growerp API call
+
 [![license](http://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/PopRestStore/blob/master/LICENSE.md)
 [![release](http://img.shields.io/github/release/moqui/PopRestStore.svg)](https://github.com/moqui/PopRestStore/releases)
 [![commits since release](http://img.shields.io/github/commits-since/moqui/PopRestStore/v1.0.0.svg)](https://github.com/moqui/PopRestStore/commits/master)

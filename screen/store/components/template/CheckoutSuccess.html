@@ -23,7 +23,7 @@
                         <span class="text-gdark">{{item.quantity}}</span>
                     </div>
                     <div class="col col-lg-2 text-right">
-                        <span class="text-gdark">${{item.unitAmount.toFixed(2)}}</span>
+                        <span class="text-gdark">{{currencyFormat.format(item.unitAmount)}}</span>
                     </div>
                 </div>
                 <span v-else class="d-none">{{deliveryPrice = item.unitAmount}}</span>
@@ -31,19 +31,19 @@
                 <div class="row text-gdark">
                     <span class="col col-lg-10">SubTotal</span>
                     <span class="col col-lg-2 text-right">
-                        ${{(orderList.orderPart.partTotal - deliveryPrice).toFixed(2)}}</span>
+                        {{currencyFormat.format(orderList.orderPart.partTotal - deliveryPrice)}}</span>
                 </div>   
                 <hr class="hr-small w-100">
                 <div class="row text-gdark">
                     <span class="col col-lg-10">Delivery</span>
                     <span class="col col-lg-2 text-right">
-                        ${{deliveryPrice.toFixed(2)}}</span>
+                        {{currencyFormat.format(deliveryPrice)}}</span>
                 </div>   
                 <hr class="hr-small w-100">
                 <div class="row text-gdark">
                     <span class="col col-lg-10">TOTAL</span>
                     <span class="col col-lg-2 text-right">
-                        ${{orderList.orderHeader.grandTotal}}</span>
+                        {{currencyFormat.format(orderList.orderHeader.grandTotal)}}</span>
                 </div>
                 <div class="row mt-5">
                     <contact-info/>

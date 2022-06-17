@@ -486,7 +486,7 @@ storeComps.CreateAccountPageTemplate = getPlaceholderRoute("template_client_acco
 storeComps.CustomerOrderPage = {
     name: "customerorder-page",
     data: function() { return {
-        homePath: "", ordersList: [], orderList: {},
+        homePath: "", ordersList: [], orderList: {}, currencyFormat: "",
         axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
                 "api_key":this.$root.apiKey, "moquiSessionToken":this.$root.moquiSessionToken } }
     }; },
@@ -494,6 +494,7 @@ storeComps.CustomerOrderPage = {
         getCustomerOrderById: function() {
             CustomerService.getCustomerOrderById(this.$route.params.orderId,this.axiosConfig).then(function (data) {
                 this.orderList = data;
+                this.currencyFormat = Intl.NumberFormat('en-US', { style: 'currency', currency: data.orderHeader.currencyUomId });
             }.bind(this));
         },
         getExpectedArrivalDate: function(tt) {
@@ -528,7 +529,7 @@ storeComps.CustomerOrderPageTemplate = getPlaceholderRoute("template_client_orde
 storeComps.CustomerOrdersPage = {
     name: "customerorders-page",
     data: function() { return {
-        homePath: "", ordersList: [], listProduct: [],
+        homePath: "", ordersList: [], listProduct: [], currencyFormat: "",
         axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
                 "api_key":this.$root.apiKey, "moquiSessionToken":this.$root.moquiSessionToken } }
     }; },
@@ -536,12 +537,14 @@ storeComps.CustomerOrdersPage = {
         getCustomerOrders: function() {
             CustomerService.getCustomerOrders(this.axiosConfig).then(function (data) {
                 this.ordersList = data.orderInfoList;
+                this.currencyFormat = Intl.NumberFormat('en-US', { style: 'currency', currency: this.ordersList[0].currencyUomId });
                 this.getCustomerOrderById();
             }.bind(this));
         },
         getCustomerOrderById: function() {
             for (var x in this.ordersList) {
                 CustomerService.getCustomerOrderById(this.ordersList[x].orderId,this.axiosConfig).then(function (data) {
+                    this.currencyFormat = Intl.NumberFormat('en-US', { style: 'currency', currency: data.orderHeader.currencyUomId });
                     var product = {
                         "orderId":data.orderItemList[0].orderId,
                         "listProduct":data.orderItemList

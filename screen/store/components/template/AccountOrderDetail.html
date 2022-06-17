@@ -53,7 +53,7 @@
                     <div class="col-3 col-sm-2">
                         <h2 class="lead text-cyan text-right pr-4">Price</h2>
                         <template v-for="(item, index) in orderList.orderItemList">
-                            <div class="row no-gutters text-right pr-4 font-size-09"><span class="col-12">${{item.unitAmount.toFixed(2)}}</span></div>
+                            <div class="row no-gutters text-right pr-4 font-size-09"><span class="col-12">{{currencyFormat.format(item.unitAmount)}}</span></div>
                         </template>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <span class="row no-gutters justify-content-center font-size-09">SubTotal</span>
                     </div>
                     <div class="col-3 col-sm-2">
-                        <div class="row no-gutters text-right pr-4 font-size-09"><span class="col-12">${{orderList.orderPart.partTotal.toFixed(2)}}</span></div>
+                        <div class="row no-gutters text-right pr-4 font-size-09"><span class="col-12">{{currencyFormat.format(orderList.orderPart.partTotal)}}</span></div>
                     </div>
                 </div>
                 <div class="row justify-content-end mb-3">
@@ -79,7 +79,7 @@
                         <span class="row no-gutters justify-content-center font-size-09">Total</span>
                     </div>
                     <div class="col-3 col-sm-2">
-                        <div class="row no-gutters text-right pr-4 font-size-09"><span class="col-12">${{orderList.orderHeader.grandTotal.toFixed(2)}}</span></div>
+                        <div class="row no-gutters text-right pr-4 font-size-09"><span class="col-12">{{currencyFormat.format(orderList.orderHeader.grandTotal)}}</span></div>
                     </div>
                 </div>
                 <div class="breakline no-gutters mb-3"></div>

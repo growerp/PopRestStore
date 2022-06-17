@@ -51,15 +51,21 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <if condition="ec.user.userAccount != null">
                 <set field="customerPartyId" from="ec.user.userAccount.partyId"/>
+                <!-- get related company -->
+                <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
+                    <econdition field-name="fromPartyId" from="customerPartyId"/>
+                    <date-filter/></entity-find>
+                <set field="companyPartyId" from="rel[0].toPartyId"/>
                 <!-- NOTE: use the web session for attributes such as cartOrderId for security; this won't work in a stateless mode or outside a web session -->
                 <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
                 <set field="sessionAttributes.customerPartyId" from="customerPartyId"/>
+                <set field="sessionAttributes.companyPartyId" from="companyPartyId"/>
                 <set field="cartOrderId" from="ec.web.sessionAttributes.cartOrderId"/>
 
                 <!-- see if there is an open order for user and get that ID into session -->
                 <entity-find entity-name="mantle.order.OrderHeaderAndPart" list="existingOrderList">
                     <econdition field-name="statusId" value="OrderOpen"/>
-                    <econdition field-name="customerPartyId"/>
+                    <econdition field-name="customerPartyId" from="companyPartyId"/>
                     <select-field field-name="orderId"/><select-field field-name="orderPartSeqId"/>
                     <order-by field-name="-entryDate"/><!-- get most recent open order -->
                 </entity-find>
@@ -81,8 +87,12 @@ along with this software (see the LICENSE.md file). If not, see
                         </entity-find>
                         <if condition="orderPartList">
                             <set field="orderPart" from="orderPartList[0]"/>
-                            <set field="orderPart.customerPartyId" from="customerPartyId"/>
+                            <set field="orderPart.customerPartyId" from="companyPartyId"/>
                             <entity-update value-field="orderPart"/>
+                            <!-- create partParty -->
+                            <service-call name="create#mantle.order.OrderPartParty"
+                                in-map="[orderId: cartOrderId, orderPartSeqId: orderPart.orderPartSeqId,
+                                        partyId: customerPartyId, roleTypeId: 'CustomerContactPerson']"/>
                         </if>
                     </if>
                 </else></if>

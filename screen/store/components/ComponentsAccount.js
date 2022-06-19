@@ -42,8 +42,8 @@ storeComps.LoginPage = {
             }.bind(this))
             .catch(function (error) { 
                 if(!!error.response && !!error.response.headers){
-                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquiSessionToken;
-                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
                 }                
                 this.loginErrormessage = error.response.data.errors; 
             }.bind(this));
@@ -179,8 +179,8 @@ storeComps.ResetPasswordPage = {
                 this.$router.push({ name: 'account'});
             }.bind(this)).catch(function (error) {
                 if(!!error.response && !!error.response.headers){
-                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquiSessionToken;
-                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
                 }
             }.bind(this));
         }
@@ -447,7 +447,7 @@ storeComps.CreateAccountPage = {
                 this.$router.push({ name: 'login'});
             }.bind(this)).catch(function (error) {
                 if(!!error.response && !!error.response.headers){
-                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
                 }
                 this.errorMessage = "An error occurred: " + error.response.data.errors;
             }.bind(this));
@@ -466,7 +466,7 @@ storeComps.CreateAccountPage = {
                 
             }.bind(this)).catch(function (error) {
                 if(!!error.response && !!error.response.headers){
-                    this.$root.moquiSessionToken = error.response.headers.moquiSessionToken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
                 }
                 this.errorMessage = error.response.data.errors;
             }.bind(this));

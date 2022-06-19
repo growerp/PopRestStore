@@ -1,9 +1,3 @@
-<#assign
-productList = productSearchResults.productList
-productListCount = productSearchResults.productListCount
-productListPageSize = productSearchResults.productListPageSize
-productListPageRangeHigh = productSearchResults.productListPageRangeHigh>
-
 <div>
 	<div class="container">
         <div class="container mt-2">

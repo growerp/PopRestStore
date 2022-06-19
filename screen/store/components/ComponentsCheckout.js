@@ -194,12 +194,13 @@ storeComps.CheckOutPage = {
         getCartInfo: function() {
             new Promise( function(resolve) {
                 ProductService.getCartInfo(this.axiosConfig).then(function (data) {
-                    this.currencyFormat = new Intl.NumberFormat('en-US', { style: 'currency', currency: data.orderHeader.currencyUomId });
+                    this.currencyFormat = new Intl.NumberFormat('en-US', 
+                        { style: 'currency', currency: data.orderHeader == undefined ? 'USD' : data.orderHeader.currencyUomId });
                     if (data.postalAddress) {
                         this.postalAddressStateGeoSelected = data.postalAddressStateGeo;
                         this.addressOption = data.postalAddress.contactMechId + ':' + data.postalAddress.telecomContactMechId;
                         this.shippingAddressSelect = data.postalAddress;
-                        this.shippingAddressSelect.contactNumber = data.telecomNumber.contactNumber;
+                        this.shippingAddressSelect.contactNumber = data.telecomNumber == undefined ? "": data.telecomNumber.contactNumber;
                     } else if (this.listShippingAddress.length) {
                         // Preselect first address
                         this.addressOption = this.listShippingAddress[0].postalContactMechId + ':' + this.listShippingAddress[0].telecomContactMechId;
@@ -305,7 +306,7 @@ storeComps.CheckOutPage = {
                     this.showModal("modal-error");
                     this.setCurrentStep(STEP_BILLING);
                 }
-                if(data.messages.includes("error") && data.messages.includes("122")) {
+                if(data.messages != undefined && data.messages.includes("error") && data.messages.includes("122")) {
                     this.responseMessage = "Please provide a valid Billing ZIP";
                     this.setCurrentStep(STEP_BILLING);
                 } else {
@@ -428,7 +429,7 @@ storeComps.CheckOutPage = {
         changeShippingAddress: function(data) {
             this.shippingAddressSelect = data.postalAddress;
             this.shippingAddressSelect.contactNumber = data.telecomNumber.contactNumber;
-            this.postalAddressStateGeoSelected = {geoName: data.postalAddressStateGeo.geoName};
+            this.postalAddressStateGeoSelected = {geoName: data.postalAddressStateGeo == undefined ? "" : data.postalAddressStateGeo.geoName};
         },
         cleanShippingAddress: function() { this.shippingAddress = {}; this.isUpdate = false; },
         cleanPaymentMethod: function() { this.paymentMethod = {}; this.isUpdate = false; },
@@ -499,7 +500,7 @@ storeComps.CheckOutPageTemplate = getPlaceholderRoute("template_client_checkout"
 storeComps.SuccessCheckOut = {
     name: "success-checkout",
     data: function() { return {
-        customerInfo: {}, deliveryPrice:0, ordersList:[], orderList:{},
+        customerInfo: {}, deliveryPrice:0, ordersList:[], orderList:{}, currencyFormat: "",
         axiosConfig: { headers: { "Content-Type": "application/json;charset=UTF-8", "Access-Control-Allow-Origin": "*",
                 "api_key":this.$root.apiKey, "moquiSessionToken":this.$root.moquiSessionToken } }
     }; },
@@ -513,6 +514,8 @@ storeComps.SuccessCheckOut = {
         getCustomerOrderById: function() {
             CustomerService.getCustomerOrderById(this.$route.params.orderId,this.axiosConfig)
                 .then(function (data) {
+                    this.currencyFormat = new Intl.NumberFormat('en-US', 
+                        { style: 'currency', currency: data.orderHeader.currencyUomId });
                     this.orderList = data;
                     var event = new CustomEvent("ordercomplete", { 'detail': data });
                     window.dispatchEvent(event);

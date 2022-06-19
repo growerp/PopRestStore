@@ -106,7 +106,7 @@ along with this software (see the LICENSE.md file). If not, see
                         {"bool":{"should":[{"range":{"categories.categoryThruDate":{"gte":${nowTimeLong}}}}, {"bool":{"must_not":{"exists":{"field":"categories.categoryThruDate"}}}}]}}
                     ]}}"""]
             ]]></script>
-            <!-- <log level="warn" message="productDataDocumentId: ${productDataDocumentId}\n queryString: ${queryString}\n nestedQueryMap: ${nestedQueryMap}"/> -->
+            <log level="warn" message="productDataDocumentId: ${productDataDocumentId}\n queryString: ${queryString}\n nestedQueryMap: ${nestedQueryMap}"/>
 
             <entity-find-one entity-name="moqui.entity.document.DataDocument" value-field="productDataDocument" cache="true">
                 <field-map field-name="dataDocumentId" from="productDataDocumentId"/></entity-find-one>

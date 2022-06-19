@@ -408,7 +408,7 @@ storeComps.CreateAccountPage = {
         if(window.location.href.indexOf("localhost") >= 0) {
             accountInfo = {firstName: 'John', lastName: 'Denver', emailAddress: 'test@example.com'};
             if(this.$root.username) accountInfo.emailAddres = this.$root.username;
-            accountInfo.password = 'qqqqqq9!';
+            accountInfo.newPassword = 'qqqqqq9!';
         }
         accountInfo.ownerPartyId  = this.$route.params.ownerPartyId;
         return {

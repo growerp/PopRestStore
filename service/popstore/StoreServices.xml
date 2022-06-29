@@ -30,6 +30,9 @@ along with this software (see the LICENSE.md file). If not, see
                 <econdition field-name="settingTypeEnumId" value="PsstHostname"/>
                 <date-filter/><order-by field-name="-fromDate"/>
             </entity-find>
+            <if condition="requestHostName.contains('localhost')">
+                <set field="requestHostName" value="$requestHostName:8080"/>
+            </if>
             <iterate list="hostSettingList" entry="hostSetting">
                 <set field="hostPattern" from="hostSetting.settingValue"/>
                 <if condition="hostPattern != null &amp;&amp; ((String) requestHostName).matches((String) hostPattern)">

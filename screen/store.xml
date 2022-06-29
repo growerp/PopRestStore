@@ -19,6 +19,7 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="popstore.StoreServices.get#ProductStoreIdFromHostName" in-map="[
             requestHostName: (ec.web.getHostName(false) == '10.0.2.2' ? 'localhost' : ec.web.getHostName(false))]" out-map="productStoreIdContext"/>
         <set field="productStoreId" value="${productStoreIdContext.productStoreId ?: 'POPC_DEFAULT'}"/>
+        <if condition="productStoreId == 'POPC_DEFAULT'"><script>ec.web.sendError(404, "Not a valid website url", null)</script></if>
 
         <service-call name="popstore.StoreServices.get#StoreInfo" in-map="[productStoreId:productStoreId]" out-map="storeInfo"/>
         <set field="productStore" from="storeInfo.productStore"/>

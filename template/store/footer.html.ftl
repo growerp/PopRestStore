@@ -18,8 +18,10 @@
                 <li class="footer-follow-text">Follow Us</li>
                 <i class="fab fa-twitter footer-icons"></i>
                 <i class="fab fa-facebook footer-icons"></i>
-                <i class="fab fa-google-plus-g footer-icons"></i>
+                <i class="fab fa-instagram footer-icons"></i>
                 <i class="fab fa-youtube footer-icons"></i>
+                <i class="fab fa-linkedin footer-icons"></i>
+                <i class="fab fa-github footer-icons"></i>
             </ul>
         </div>
         <p class="text-center"><a href="https://www.moqui.org" target="_blank">Built on Moqui Framework</a></p>

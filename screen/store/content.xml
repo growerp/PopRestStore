@@ -89,21 +89,16 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="org.moqui.impl.WikiServices.get#PublishedWikiPageText" out-map="context"
                 in-map="[wikiSpaceId:wikiSpaceId, pagePath:extraPathNameList?.join('/'), versionName:ver]"/>
         <!-- TODO: consider removing versionName:ver above in production so only published versions can be seen -->
-        <if condition="extraPathNameList[0] == 'about'">
-            <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/about.md.ftl"/></if>
-        <if condition="extraPathNameList[0] == 'contact'">
-            <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/contact.md.ftl"/></if>
-        <if condition="extraPathNameList[0] == 'help'">
-            <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/help.md.ftl"/></if>
+        <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${ec.web.getPathInfo().split('/')[3]}.md.ftl"/>
         </actions>
     <widgets>
         <render-mode><text type="html" location="${template_server_header}"/></render-mode>
         <section name="PageTextSection" condition="pageText">
             <widgets>
                 <!--render-mode><text type="html" location="${template_server_content}"/></render-mode-->
-                <render-mode><text type="html" location="component://growerp/template/help1.html.ftl"/></render-mode>
+                <render-mode><text type="html" location="component://PopRestStore/template/store/content1.html.ftl"/></render-mode>
                 <render-mode><text type="html" location="${location}"/></render-mode>
-                <render-mode><text type="html" location="component://growerp/template/help2.html.ftl"/></render-mode>
+                <render-mode><text type="html" location="component://PopRestStore/template/store/content2.html.ftl"/></render-mode>
             </widgets> 
             <fail-widgets>
                 <render-mode><text type="html" location="component://PopRestStore/template/store/error.html.ftl"/></render-mode>

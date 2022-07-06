@@ -28,7 +28,7 @@
                 <!-- Right aligned nav items -->
                 <ul class="navbar-nav ml-auto">
                     <div class="text-secondary">
-                        <span class="navbar-pop-title">Official POP Merchandise</span>
+                        <span class="navbar-pop-title">Interesting for you?</span>
                         <span class="text-center navbar-pop-subtitle">Quality 100% Guaranted</span>
                     </div>
                 </ul>
@@ -47,28 +47,35 @@
                         </#list>
                     </div>
                 </li>
-
+                <#-- deals button -->
                 <#if storeInfo.categoryByType.PsctPromotions??>
                     <a class="nav-link" href="/store/category/${storeInfo.categoryByType.PsctPromotions.productCategoryId}">
                         ${storeInfo.categoryByType.PsctPromotions.categoryName}
                     </a>
                 </#if>
 
+                <#-- top menu items from content markdown -->
+                <#list storeInfo.menu as topItem>
+                <#if topItem.items?has_content>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Customer Service <i class="fas fa-angle-down icon-down"></i>
+                        ${topItem.title}<i class="fas fa-angle-down icon-down"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item item-color" href="/store/content/help">Help Center</a>
-                        <a class="dropdown-item item-color" href="/store/content/help">Delivery Rates</a>
-                        <a class="dropdown-item item-color" href="/store/content/help#delivery">Delivery Times</a>
-                        <a class="dropdown-item item-color" href="/store/content/help#customer-pick-up">Customer Pick Up</a>
-                        <a class="dropdown-item item-color" href="/store/content/help#how-to-pay">How to pay</a>
-                        <div role="separator" class="dropdown-divider"></div>
-                        <a class="dropdown-item item-color" href="/store/content/about">About POP Shop</a>
-                        <a class="dropdown-item item-color" href="/store/content/contact">Contact Us</a>
+                    <#list topItem.items as item>
+                        <a class="dropdown-item item-color" href="/store/content/${topItem.path}#${item.anchor}">${item.text}</a>
+                    </#list>
                     </div>
                 </li>
+                <#else>
+                    <a class="nav-link" href="/store/content/${topItem.path}">
+                        ${topItem.title}
+                    </a>
+                </#if>
+                </#list>
+
+
+
             </ul>
 
             <!-- Right aligned nav items -->

@@ -1,6 +1,6 @@
 <footer class="footer">
     <div class="container">
-        <div class="row" v-if="infoLink">
+        <#--div class="row" v-if="infoLink">
             <ul class="col col-lg-3 footer-ul">
                 <li><a href="/store/content/help" class="footer-a">Help Center</a></li>
                 <li><a href="/store/content/help" class="footer-a">Delivery Rates</a></li>
@@ -23,7 +23,7 @@
                 <i class="fab fa-linkedin footer-icons"></i>
                 <i class="fab fa-github footer-icons"></i>
             </ul>
-        </div>
+        </div-->
         <p class="text-center"><a href="https://www.moqui.org" target="_blank">Built on Moqui Framework</a></p>
     </div>
 </footer>

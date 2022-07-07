@@ -17,13 +17,13 @@
                     <input type="text" placeholder="Search..." v-model="searchText">
                     <button class="search-button" type="submit"><i class="fa fa-search"></i></button>
                 </form>
-                <!-- Right aligned nav items -->
+                <!-- Right aligned nav items
                 <ul class="navbar-nav ml-auto">
                     <div class="text-secondary">
                         <span class="navbar-pop-title">Interesting for you?</span>
                         <span class="text-center navbar-pop-subtitle">Quality 100% Guaranted</span>
                     </div>
-                </ul>
+                </ul-->
             </div>
         </div>
         <div id="nav_collapse1"  class="container navbar-collapse collapse">
@@ -41,20 +41,6 @@
                     :href="'/store/category/' + storeInfo.categoryByType.PsctPromotions.productCategoryId" class="nav-link">
                     {{storeInfo.categoryByType.PsctPromotions.categoryName}}
                 </a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" id="navbarMenuService" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Customer Service <i class="fas fa-angle-down icon-down"></i></a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item item-color" href="/store/content/help">Help Center</a>
-                        <a class="dropdown-item item-color" href="/store/content/help">Delivery Rates</a>
-                        <a class="dropdown-item item-color" href="/store/content/help#delivery">Delivery Times</a>
-                        <a class="dropdown-item item-color" href="/store/content/help#customer-pick-up">Customer Pick Up</a>
-                        <a class="dropdown-item item-color" href="/store/content/help#how-to-pay">How to pay</a>
-                        <div role="separator" class="dropdown-divider"></div>
-                        <a class="dropdown-item item-color" href="/store/content/about">About POP Shop</a>
-                        <a class="dropdown-item item-color" href="/store/content/contact">Contact Us</a>
-                    </div>
-                </li>
             </ul>
             <!-- Right aligned nav items -->
             <ul class="navbar-nav ml-auto">

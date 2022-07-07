@@ -1,4 +1,4 @@
-<div class="container-fluid features d-none d-sm-none d-md-block">
+<#--div class="container-fluid features d-none d-sm-none d-md-block">
     <div class="d-flex justify-content-around container">
         <div class="feature">
             <div class="feature-icon"><i class="fa fa-gift" aria-hidden="true"></i></div>
@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-</div>
+</div-->
 <div class="container">
     <#if promoProductList?has_content>
         <div class="text-left mt-3 modal-text">This Week's deals</div>

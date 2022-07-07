@@ -25,17 +25,18 @@
                         <i class="fa fa-search"></i>
                     </button>
                 </form>
-                <!-- Right aligned nav items -->
-                <ul class="navbar-nav ml-auto">
+                <#-- Right aligned nav items -->
+                <!--ul class="navbar-nav ml-auto">
                     <div class="text-secondary">
                         <span class="navbar-pop-title">Interesting for you?</span>
                         <span class="text-center navbar-pop-subtitle">Quality 100% Guaranted</span>
                     </div>
-                </ul>
+                </ul-->
             </div>
         </div>
         <div id="nav_collapse1" class="container navbar-collapse collapse">
             <ul class="navbar-nav">
+              <#if browseRootCategoryInfo.subCategoryList?has_content>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop <i class="fas fa-angle-down icon-down"></i></a>
                     
@@ -47,8 +48,9 @@
                         </#list>
                     </div>
                 </li>
+              </#if>
                 <#-- deals button -->
-                <#if storeInfo.categoryByType.PsctPromotions??>
+                <#if storeInfo.categoryByType.PsctPromotions.nbrOfProducts != 0>
                     <a class="nav-link" href="/store/category/${storeInfo.categoryByType.PsctPromotions.productCategoryId}">
                         ${storeInfo.categoryByType.PsctPromotions.categoryName}
                     </a>
@@ -56,6 +58,7 @@
 
                 <#-- top menu items from content markdown -->
                 <#list storeInfo.menu as topItem>
+                <#if topItem.title?lower_case == 'home'><#continue></#if>
                 <#if topItem.items?has_content>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

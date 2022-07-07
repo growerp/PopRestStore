@@ -77,8 +77,13 @@ along with this software (see the LICENSE.md file). If not, see
                 <entity-find-one entity-name="mantle.product.category.ProductCategory" value-field="productCategory" cache="true">
                     <field-map field-name="productCategoryId" from="storeCategory.productCategoryId"/></entity-find-one>
                 <set field="categoryInfo" from="storeCategory.getMap()"/>
+                <entity-find-count entity-name="mantle.product.category.ProductCategoryMember" count-field="nbrOfProducts">
+                    <econdition field-name="productCategoryId" from="productCategory.productCategoryId"/>
+                    <date-filter/>
+                </entity-find-count>
                 <script>
                     categoryInfo.putAll(productCategory)
+                    categoryInfo["nbrOfProducts"] = nbrOfProducts
                     categoryList.add(categoryInfo)
                     if (categoryByType.get(categoryInfo.storeCategoryTypeEnumId) == null)
                         categoryByType.put(categoryInfo.storeCategoryTypeEnumId, categoryInfo)

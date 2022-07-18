@@ -89,7 +89,7 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="org.moqui.impl.WikiServices.get#PublishedWikiPageText" out-map="context"
                 in-map="[wikiSpaceId:wikiSpaceId, pagePath:extraPathNameList?.join('/'), versionName:ver]"/>
         <!-- TODO: consider removing versionName:ver above in production so only published versions can be seen -->
-        <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${ec.web.getPathInfo().split('/')[3]}.md.ftl"/>
+        <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${ec.web.getPathInfo().split('/')[2]}.md.ftl"/>
         </actions>
     <widgets>
         <render-mode><text type="html" location="${template_server_header}"/></render-mode>

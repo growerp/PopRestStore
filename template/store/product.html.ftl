@@ -6,18 +6,18 @@
     <#if productAvailability.get(productId)!false><#assign inStock = true></#if>
 </#if>
 <div class="container mt-2">
-    <a class="customer-link" href="/store">Home <i class="fas fa-angle-right"></i></a>
+    <a class="customer-link" href="/">Home <i class="fas fa-angle-right"></i></a>
     <a class="customer-link">${product.productName}</a>
 </div>
 <div class="container container-text mt-1">
     <#if addedCorrect?? && addedCorrect == 'true'>
         <div class="alert alert-primary mt-3 mb-3" role="alert">
             <i class="far fa-check-square"></i> You added a ${product.productName} ${product.priceUomId} ${product.price} to your shopping cart.
-            <a class="float-right" href="/store/d#/checkout/${storeInfo.productStore.organizationPartyId}">Go to Checkout <i class="fas fa-arrow-right"></i></a>
+            <a class="float-right" href="/d#/checkout/${storeInfo.productStore.organizationPartyId}">Go to Checkout <i class="fas fa-arrow-right"></i></a>
         </div>
     </#if>
     <#--  <div class="row d-flex justify-content-center">
-        <img id="spinner" class="product-spinner" src="/store/assets/spinner.gif">
+        <img id="spinner" class="product-spinner" src="/assets/spinner.gif">
     </div>  -->
     <div class="row mt-2">
         <div class="col col-lg-1 col-sm-4 col-4">
@@ -39,7 +39,7 @@
                         <#assign imgExists = true/>
                         <img onClick="changeLargeImage('${img.productContentId}');"
                             class="figure-img img-fluid product-img"
-                            src="/store/content/productImage/${img.productContentId}"
+                            src="/content/productImage/${img.productContentId}"
                             alt="Product Image">
                     </#if>
                 </#list>
@@ -69,7 +69,7 @@
             </div>
         </div>
         <div class="col col-lg-3">
-            <form class="card cart-div" method="post" action="/store/product/addToCart">
+            <form class="card cart-div" method="post" action="/product/addToCart">
                 <div>
                     <#if product.listPrice??>
                         <span class="save-circle" v-if="product.listPrice">
@@ -182,7 +182,7 @@
 </div>
 <div class="modal fade" id="modal1">
     <div class="modal-dialog" role="document">
-        <form class="modal-content" id="product-review-form" method="post" action="/store/product/addReview">
+        <form class="modal-content" id="product-review-form" method="post" action="/product/addReview">
             <div class="modal-header">
                 <h5 class="modal-title">Add an Review</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -224,7 +224,7 @@
             <div class="modal-body">
                 <#if imgContent.productContentId??>
                     <img width="100%" height="200px" class="figure-img img-fluid product-img"
-                        src="/store/content/productImage/${imgContent.productContentId}" alt="Product Image">
+                        src="/content/productImage/${imgContent.productContentId}" alt="Product Image">
                 </#if>
             </div>
             <div class="modal-footer">
@@ -235,7 +235,7 @@
 </div>
 
 <script>
-    var prodImageUrl = "/store/content/productImage/";
+    var prodImageUrl = "/content/productImage/";
     var $productImageLarge = document.getElementById("product-image-large");
 
     document.body.onload = function() {
@@ -265,7 +265,7 @@
     <#if product.contentList?has_content && imgExists>
         changeLargeImage("${product.contentList[0].productContentId}");
     <#else>
-        $productImageLarge.src = "/store/assets/default.png";
+        $productImageLarge.src = "/assets/default.png";
     </#if>
     function setStarNumber(number) {
         var productRating = document.getElementById("productRating");

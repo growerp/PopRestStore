@@ -1,33 +1,33 @@
 <div>
 	<div class="container">
         <div class="container mt-2">
-        	<a href="/store" class="customer-link">Home <i class="fas fa-angle-right"></i></a> Search 
+        	<a href="/" class="customer-link">Home <i class="fas fa-angle-right"></i></a> Search 
         </div>
         <div class="row mt-4">
             <div class="col col-lg-2 col-12">
                 <div class="customer-menu">
                     <ul class="deals-ul">
                         <#if (storeInfo.categoryByType.PsctSearch.productCategoryId)??>
-                            <li><a href="/store/category/${storeInfo.categoryByType.PsctSearch.productCategoryId}">
+                            <li><a href="/category/${storeInfo.categoryByType.PsctSearch.productCategoryId}">
                                 <i class="fas fa-th"></i> All</a></li>
                         </#if>
                         <#if (storeInfo.categoryByType.PsctPromotions.productCategoryId)??>
-                            <li><a href="/store/category/${storeInfo.categoryByType.PsctPromotions.productCategoryId}">
+                            <li><a href="/category/${storeInfo.categoryByType.PsctPromotions.productCategoryId}">
                                 <i class="fa fa-fire" aria-hidden="true"></i> Deals</a></li>
                         </#if>
                         <#if (storeInfo.categoryByType.PsctNewProducts.productCategoryId)??>
-                            <li><a href="/store/category/${storeInfo.categoryByType.PsctNewProducts.productCategoryId}">
+                            <li><a href="/category/${storeInfo.categoryByType.PsctNewProducts.productCategoryId}">
                                 <i class="fas fa-tag"></i> New</a></li>
                         </#if>
                         <#if (storeInfo.categoryByType.PsctFeatured.productCategoryId)??>
-                            <li><a href="/store/category/${storeInfo.categoryByType.PsctFeatured.productCategoryId}">
+                            <li><a href="/category/${storeInfo.categoryByType.PsctFeatured.productCategoryId}">
                                 <i class="fas fa-bullhorn"></i> Best Sellers</a></li>
                         </#if>
                     </ul>
                     <span class="deals-subtitle">Categories</span>
                     <ul class="deals-ul">
                         <#list browseRootCategoryInfo.subCategoryList as category>
-                            <li><a href="/store/category/${category.productCategoryId}">${category.categoryName}</a></li>
+                            <li><a href="/category/${category.productCategoryId}">${category.categoryName}</a></li>
                         </#list>
                     </ul>
                 </div>
@@ -41,17 +41,17 @@
                 <div class="row mt-5">
                     <#list productList![] as localProd>
                         <div class="col col-lg-4 col-md-6 col-6">
-                            <a href="/store/product/${localProd.productId}">
+                            <a href="/product/${localProd.productId}">
                                 <div class="category-product">
                                     <figure class="figure">
                                         <#if localProd.mediumImageInfo?? || localProd.smallImageInfo??>
                                             <#assign img = localProd.smallImageInfo! localProd.mediumImageInfo>
                                             <img class="figure-img img-fluid product-img product-small-img"
-                                                src="/store/content/productImage/${img.productContentId}"
+                                                src="/content/productImage/${img.productContentId}"
                                                 alt="Product Image">
                                         <#else>
                                             <img class="figure-img img-fluid product-img product-small-img"
-                                                src="/store/assets/default.png"
+                                                src="/assets/default.png"
                                                 alt="Product Image">
                                         </#if>
                                         <figcaption class="text-left title-product-text figure-caption">${localProd.productName}</figcaption>
@@ -79,15 +79,15 @@
                 <nav aria-label="Page navigation" class="<#if productListCount == 0 || productListCount <= 5 >d-none</#if>">
                     <ul class="pagination justify-content-center">
                         <li class="page-item <#if pageIndex?number == 0>disabled</#if>">
-                            <a class="page-link" href="/store/search/${searchParameter}?pageIndex=${pageIndex?number - 1}">Previous</a>
+                            <a class="page-link" href="/search/${searchParameter}?pageIndex=${pageIndex?number - 1}">Previous</a>
                         </li>
                         <#list 0..((productListCount/ productListPageSize) - 1)?floor as n>
                             <li class="page-item <#if pageIndex?number == n>active</#if>">
-                                <a class="page-link" href="/store/search/${searchParameter}?pageIndex=${n}">${n + 1}</a>
+                                <a class="page-link" href="/search/${searchParameter}?pageIndex=${n}">${n + 1}</a>
                             </li>
                         </#list>
                         <li class="page-item <#if productListCount == productListPageRangeHigh>disabled</#if>">
-                            <a class="page-link" href="/store/search/${searchParameter}?pageIndex=${pageIndex?number + 1}">Next</a>
+                            <a class="page-link" href="/search/${searchParameter}?pageIndex=${pageIndex?number + 1}">Next</a>
                         </li>
                     </ul>
                 </nav>

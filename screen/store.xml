@@ -19,7 +19,6 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="popstore.StoreServices.get#ProductStoreIdFromHostName" in-map="[
             requestHostName: (ec.web.getHostName(false) == '10.0.2.2' ? 'localhost' : ec.web.getHostName(false))]" out-map="productStoreIdContext"/>
         <set field="productStoreId" value="${productStoreIdContext.productStoreId ?: 'POPC_DEFAULT'}"/>
-        <if condition="productStoreId == 'POPC_DEFAULT'"><script>ec.web.sendError(404, "Not a valid website url", null)</script></if>
 
         <service-call name="popstore.StoreServices.get#StoreInfo" in-map="[productStoreId:productStoreId]" out-map="storeInfo"/>
         <set field="productStore" from="storeInfo.productStore"/>
@@ -32,7 +31,7 @@ along with this software (see the LICENSE.md file). If not, see
         </if>
     </always-actions>
 
-    <transition name="getLogo" read-only="true">
+    <transition name="getLogo" read-only="true"><!-- should use rest interface -->
         <actions>
             <entity-find entity-name="mantle.party.PartyContent" list="partyContentList" cache="true">
                 <econdition field-name="partyContentTypeEnumId" value="PcntLogoImage"/>
@@ -43,6 +42,36 @@ along with this software (see the LICENSE.md file). If not, see
                 <else>
                     <script>ec.web.sendResourceResponse("dbresource://GrowERP/images/growerp_logo.jpg", true)</script>
                 </else>
+            </if>
+        </actions><default-response type="none"/>
+    </transition>
+
+    <transition name="getContent" read-only="true"><!-- should use rest interface -->
+        <parameter name="contentId"/>
+        <actions>
+            <entity-find entity-name="mantle.party.PartyContent" list="partyContentList" cache="true">
+                <econdition field-name="partyContentTypeEnumId" value="PcntInternal"/>
+                <econdition field-name="partyId" from="productStore.organizationPartyId"/>
+                <econdition field-name="contentId"/>
+            </entity-find>
+            <if condition="partyContentList">
+                <script>ec.web.sendResourceResponse(partyContentList[0].contentLocation, true)</script>
+                <else>
+                    <script>ec.web.sendResourceResponse("dbresource://GrowERP/images/growerp_logo.jpg", true)</script>
+                </else>
+            </if>
+        </actions><default-response type="none"/>
+    </transition>
+
+    <transition name="getImage" read-only="true"><!-- should use rest interface -->
+        <actions>
+            <entity-find entity-name="growerp.store.ProductStoreContent" list="storeImages" cache="true" limit="1">
+                <econdition field-name="productStoreId" from="productStore.productStoreId"/>
+                <econdition field-name="contentTypeEnumId" value="PrstImageLarge"/>
+                <econdition field-name="description" operator="like" value="${sri.screenUrlInfo.extraPathNameList[0]}%" ignore-case="true"/>
+            </entity-find>
+            <if condition="storeImages">
+                <script>ec.web.sendResourceResponse(storeImages[0].contentLocation, true)</script>
             </if>
         </actions><default-response type="none"/>
     </transition>
@@ -81,7 +110,7 @@ var storeInfo = ${storeInfoJson};
     <subscreens default-item="home" always-use-full-path="true"/>
 
     <pre-actions>
-        <set field="home" value="/store"/>
+        <set field="home" value="/"/>
         <!-- lookup configured browse root category from storeInfo -->
         <set field="browseRootCategory" from="storeInfo.categoryByType.PsctBrowseRoot"/>
         <set field="browseRootCategoryId" from="browseRootCategory?.productCategoryId"/>
@@ -112,6 +141,14 @@ var storeInfo = ${storeInfoJson};
     </pre-actions>
 
     <widgets>
-        <render-mode><text type="html" location="${template_server_root}"/></render-mode>
+        <section name="website" condition="productStoreId != null &amp;&amp; productStoreId != 'POPC_DEFAULT'">
+            <widgets>
+                <render-mode><text type="html" location="${template_server_root}"/></render-mode>
+            </widgets>
+            <fail-widgets>
+                <label text="$productStoreId"/>
+                <label text="${ec.web.sendError(404, 'Not a valid website url', null)}"/>
+            </fail-widgets>
+        </section>
     </widgets>
 </screen>

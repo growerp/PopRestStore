@@ -5,12 +5,12 @@
                 
             <#assign headerLogoList = sri.getThemeValues("STRT_HEADER_LOGO")>
             <#if headerLogoList?has_content>
-                <a href="${sri.buildUrl("/store").getUrl()}" class="navbar-brand d-none d-sm-block">
-                    <img height="60px" class="moqui-dynamic" src="/store/getLogo" alt="Home">
+                <a href="/" class="navbar-brand d-none d-sm-block">
+                    <img height="60px" class="moqui-dynamic" src="/getLogo" alt="Home">
                     <span class="font-italic navbar-title">${storeInfo.productStore.storeName}</span>
                 </a>
             </#if>
-            <a class="navbar-brand d-block d-sm-none" href="/store">
+            <a class="navbar-brand d-block d-sm-none" href="/">
                 <span class="font-italic navbar-title">POP Shop</span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_collapse1" 
@@ -42,7 +42,7 @@
                     
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <#list browseRootCategoryInfo.subCategoryList as category>
-                            <a class="dropdown-item item-color" href="/store/category/${category.productCategoryId}">
+                            <a class="dropdown-item item-color" href="/category/${category.productCategoryId}">
                                 ${category.categoryName}
                             </a>
                         </#list>
@@ -51,14 +51,14 @@
               </#if>
                 <#-- deals button -->
                 <#if storeInfo.categoryByType.PsctPromotions.nbrOfProducts != 0>
-                    <a class="nav-link" href="/store/category/${storeInfo.categoryByType.PsctPromotions.productCategoryId}">
+                    <a class="nav-link" href="/category/${storeInfo.categoryByType.PsctPromotions.productCategoryId}">
                         ${storeInfo.categoryByType.PsctPromotions.categoryName}
                     </a>
                 </#if>
 
                 <#-- top menu items from content markdown -->
                 <#list storeInfo.menu as topItem>
-                <#if topItem.title?lower_case == 'home'><#continue></#if>
+                <#if topItem.title?lower_case?starts_with('home')><#continue></#if>
                 <#if topItem.items?has_content>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,12 +66,12 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <#list topItem.items as item>
-                        <a class="dropdown-item item-color" href="/store/content/${topItem.path}#${item.anchor}">${item.text}</a>
+                        <a class="dropdown-item item-color" href="/content/${topItem.path}#${item.anchor}">${item.text}</a>
                     </#list>
                     </div>
                 </li>
                 <#else>
-                    <a class="nav-link" href="/store/content/${topItem.path}">
+                    <a class="nav-link" href="/content/${topItem.path}">
                         ${topItem.title}
                     </a>
                 </#if>
@@ -90,20 +90,20 @@
                             ${partyDetail.firstName} ${partyDetail.lastName} ${partyDetail.organizationName!} <i class="fas fa-angle-down icon-down"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item item-color" href="/store/d#/account">Account Settings</a>
-                            <a class="dropdown-item item-color" href="/store/d#/orders">My Orders</a>
+                            <a class="dropdown-item item-color" href="/d#/account">Account Settings</a>
+                            <a class="dropdown-item item-color" href="/d#/orders">My Orders</a>
                             <div role="separator" class="dropdown-divider"></div>
-                            <form method="get" action="/store/logOut">
+                            <form method="get" action="/logOut">
                                 <button type="submit" class="dropdown-item item-color">Signout</button>
                             </form>
                         </div>
                     </li>
                 <#else>
                     <li class="nav-item">
-                        <a href="/store/d#/account/create/${storeInfo.productStore.organizationPartyId}" class="nav-link">Join Now</a>
+                        <a href="/d#/account/create/${storeInfo.productStore.organizationPartyId}" class="nav-link">Join Now</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/store/d#/login/${storeInfo.productStore.organizationPartyId}" class="nav-link"><i class="fas fa-user"></i> Sign In</a>
+                        <a href="/d#/login/${storeInfo.productStore.organizationPartyId}" class="nav-link"><i class="fas fa-user"></i> Sign In</a>
                     </li>
                 </#if>
 
@@ -117,7 +117,7 @@
                     </#if>
                 <li class="nav-item">
                     <#if cartCount gt 0>
-                        <a class="nav-link" href="/store/d#/checkout/${storeInfo.productStore.organizationPartyId}">
+                        <a class="nav-link" href="/d#/checkout/${storeInfo.productStore.organizationPartyId}">
                     <#else>
                         <a class="nav-link pointer" data-toggle="modal" data-target="#emptyCartModal">
                     </#if>

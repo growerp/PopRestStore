@@ -105,7 +105,7 @@ along with this software (see the LICENSE.md file). If not, see
 
             <!-- ProductStoreWikiContent settings -->
             <set field="templateServerWikiSpaceId" from="null"/>
-            <set field="contentBasePath" from="settings.contentLocation" default-value="/store/content/"/>
+            <set field="contentBasePath" from="settings.contentLocation" default-value="/content/"/>
             <entity-find entity-name="mantle.product.store.ProductStoreWikiContent" list="storeWikiContentList" cache="true">
                 <date-filter/><econdition field-name="productStoreId"/></entity-find>
             <iterate list="storeWikiContentList" entry="storeWikiContent">

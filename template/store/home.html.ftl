@@ -38,13 +38,13 @@
                                     <div class="carousel-item">
                                 </#if>
                                     <div class="d-block col-lg-3 col-12">
-                                        <a class="category-product" href="/store/product/${product.productId}">
+                                        <a class="category-product" href="/product/${product.productId}">
                                             <figure class="figure">
                                                 <#if product.mediumImageInfo??>
-                                                    <img width="90%" class="figure-img img-fluid" src="/store/content/productImage/${product.mediumImageInfo.productContentId}">
+                                                    <img width="90%" class="figure-img img-fluid" src="/content/productImage/${product.mediumImageInfo.productContentId}">
                                                 <#else>
                                                     <#if product.smallImageInfo??>
-                                                        <img width="90%" class="figure-img img-fluid" src="/store/content/productImage/${product.smallImageInfo.productContentId}" >
+                                                        <img width="90%" class="figure-img img-fluid" src="/content/productImage/${product.smallImageInfo.productContentId}" >
                                                     </#if>
                                                 </#if>
                                                 <figcaption class="text-left title-product-text figure-caption">
@@ -105,13 +105,13 @@
                                     <div class="carousel-item">
                                 </#if>
                                     <div class="d-block col-lg-3 col-12">
-                                        <a class="category-product" href="/store/product/${product.productId}">
+                                        <a class="category-product" href="/product/${product.productId}">
                                             <figure class="figure">
                                                 <#if product.mediumImageInfo??>
-                                                    <img width="90%" class="figure-img img-fluid" src="/store/content/productImage/${product.mediumImageInfo.productContentId}">
+                                                    <img width="90%" class="figure-img img-fluid" src="/content/productImage/${product.mediumImageInfo.productContentId}">
                                                 <#else>
                                                     <#if product.smallImageInfo??>
-                                                        <img width="90%" class="figure-img img-fluid" src="/store/content/productImage/${product.smallImageInfo.productContentId}" >
+                                                        <img width="90%" class="figure-img img-fluid" src="/content/productImage/${product.smallImageInfo.productContentId}" >
                                                     </#if>
                                                 </#if>
                                                 <figcaption class="text-left title-product-text figure-caption">

@@ -83,7 +83,7 @@ along with this software (see the LICENSE.md file). If not, see
         <if condition="specialInstrLocation">
             <set field="specialInstructions" from="ec.resource.getLocationText(specialInstrLocation, true)"/>
         </if>
-        <set field="path" from="storeInfo.menu.find{ it.title.toLowerCase() == 'home' }?.path"/>
+        <set field="path" from="storeInfo.menu.find{ it.title.toLowerCase().startsWith('home')}?.path"/>
         <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${path}.md.ftl"/>
     </actions>
 

@@ -25,7 +25,7 @@ storeComps.Navbar = {
         this.$router.push({ name: "login"});
       }.bind(this)); 
     },
-    searchProduct: function() { location.href ="/store/search/"+this.searchText; }
+    searchProduct: function() { location.href ="/search/"+this.searchText; }
   },
   created: function() {
     this.storeInfo = this.$root.storeInfo;

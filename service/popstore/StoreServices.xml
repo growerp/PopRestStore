@@ -63,6 +63,7 @@ along with this software (see the LICENSE.md file). If not, see
             <parameter name="settings" type="Map"/>
 
             <parameter name="menu" type="List"/>
+            <parameter name="menu1" type="List"/>
         </out-parameters>
         <actions>
             <entity-find-one entity-name="mantle.product.store.ProductStore" value-field="productStore" cache="true"/>
@@ -144,6 +145,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <order-by field-name="sequenceNum"/>
             </entity-find>
             <set field="menu" from="[]"/>
+            <set field="menu1" from="[]"/><!-- needed for actual content in content.xml -->
             <iterate list="menuPages" entry="page">
                 <set field="location" value="${page.rootPageLocation}/content/${page.pagePath}.md.ftl"/>
                 <set field="docRr" from="ec.resource.getLocationReference(location)"/>

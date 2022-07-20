@@ -83,16 +83,60 @@ along with this software (see the LICENSE.md file). If not, see
         <if condition="specialInstrLocation">
             <set field="specialInstructions" from="ec.resource.getLocationText(specialInstrLocation, true)"/>
         </if>
-        <!--set field="path" from="storeInfo.menu.find{ it.title.toLowerCase().startsWith('home')}?.path"/>
-        <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${path}.md.ftl"/-->
+        <set field="path" from="storeInfo.menu.find{ it.title.toLowerCase().startsWith('home')}?.path"/>
+        <if condition="path">
+            <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${path}.md.ftl"/>
+        </if>
+
+        <!-- create content menu -->
+        <set field="docRr" from="ec.resource.getLocationReference(location)"/>
+        <if condition="docRr != null">
+            <set field="lines" from="docRr.getText()"/>
+            <if condition="lines">
+                <script>
+                    storeInfo.menu1 = [];
+                    List items = [];
+                    String title;
+                    boolean first = true;
+                    lines.eachLine {
+                        if (it.startsWith('# ')) {
+                            if (first == false) {
+                                storeInfo.menu1.add([path: '/',
+                                                    title: title, items: items]);
+                                items = [];
+                            }
+                            title = it.substring(it.indexOf(' ') + 1);
+                            first = false;
+                        }
+                        if (it.startsWith('## ')) {
+                            Map item = [text: it.substring(it.indexOf(' ') + 1),
+                                        anchor: it.substring(it.indexOf(' ') + 1)
+                                            .replace(' ','-').toLowerCase()];
+                            items.add(item);
+                        }
+                    }
+                    if (first == false) storeInfo.menu1.add([path: '/',
+                        title: title, items: items]);
+                </script>
+            </if>
+        </if>
     </actions>
 
     <widgets>
-        <render-mode><text type="html" location="${template_server_header}"/></render-mode>
-        <render-mode><text type="html" location="component://PopRestStore/template/store/content1.html.ftl"/></render-mode>
-        <render-mode><text type="html" location="${location}"/></render-mode>
-        <render-mode><text type="html" location="component://PopRestStore/template/store/content2.html.ftl"/></render-mode>
-        <render-mode><text type="html" location="${template_server_home}"/></render-mode>
-        <render-mode><text type="html" location="${template_server_footer}"/></render-mode>
+        <section name="home" condition="location">
+            <widgets>
+                <render-mode><text type="html" location="${template_server_header}"/></render-mode>
+                <render-mode><text type="html" location="component://PopRestStore/template/store/content1.html.ftl"/></render-mode>
+                <render-mode><text type="html" location="${location}"/></render-mode>
+                <render-mode><text type="html" location="component://PopRestStore/template/store/content2.html.ftl"/></render-mode>
+                <render-mode><text type="html" location="${template_server_home}"/></render-mode>
+                <render-mode><text type="html" location="${template_server_footer}"/></render-mode>
+            </widgets>
+            <fail-widgets>
+                <render-mode><text type="html" location="${template_server_header}"/></render-mode>
+                <render-mode><text type="html" location="${template_server_home}"/></render-mode>
+                <render-mode><text type="html" location="${template_server_footer}"/></render-mode>
+            </fail-widgets>
+        </section>
     </widgets>
 </screen>

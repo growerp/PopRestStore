@@ -1,4 +1,4 @@
-<#if !ec.web.getPathInfoList()?has_content || ec.web.getPathInfo() == '/content/home'>
+<#if !ec.web.getPathInfoList()?has_content>
     <#assign top = storeInfo.menu1?filter(p -> p.title?lower_case?starts_with('home'))>
 <#else>
     <#assign top = storeInfo.menu1?filter(p -> p.path ==  ec.web.getPathInfoList()[1])>

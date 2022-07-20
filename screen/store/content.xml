@@ -89,6 +89,8 @@ along with this software (see the LICENSE.md file). If not, see
         <service-call name="org.moqui.impl.WikiServices.get#PublishedWikiPageText" out-map="context"
                 in-map="[wikiSpaceId:wikiSpaceId, pagePath:extraPathNameList?.join('/'), versionName:ver]"/>
         <!-- TODO: consider removing versionName:ver above in production so only published versions can be seen -->
+
+        <!-- create content menu -->
         <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${ec.web.getPathInfo().split('/')[2]}.md.ftl"/>
         <set field="docRr" from="ec.resource.getLocationReference(location)"/>
         <if condition="docRr != null">
@@ -126,7 +128,6 @@ along with this software (see the LICENSE.md file). If not, see
         <render-mode><text type="html" location="${template_server_header}"/></render-mode>
         <section name="PageTextSection" condition="pageText">
             <widgets>
-                <!--render-mode><text type="html" location="${template_server_content}"/></render-mode-->
                 <render-mode><text type="html" location="component://PopRestStore/template/store/content1.html.ftl"/></render-mode>
                 <render-mode><text type="html" location="${location}"/></render-mode>
                 <render-mode><text type="html" location="component://PopRestStore/template/store/content2.html.ftl"/></render-mode>

@@ -1,12 +1,7 @@
-<#if !ec.web.getPathInfoList()?has_content>
-    <#assign top = storeInfo.menu1?filter(p -> p.title?lower_case?starts_with('home'))>
-<#else>
-    <#assign top = storeInfo.menu1?filter(p -> p.path ==  ec.web.getPathInfoList()[1])>
-</#if>
 <div class="container container-top">
     <div class="row mt-4">
         <div class="customer-menu col col-lg-2 col-md-3 mb-5">
-<#list top as topMenu>
+<#list storeInfo.menu1 as topMenu>
             <span class="modal-text"><a href="/content/${topMenu.path}#${topMenu.anchor}">${topMenu.title}</a></span>
             <ul class="customer-orders-ul">
             <#list topMenu.items as item>

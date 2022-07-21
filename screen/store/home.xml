@@ -103,7 +103,7 @@ along with this software (see the LICENSE.md file). If not, see
                             if (first == false) {
                                 storeInfo.menu1.add([path: '',
                                     title: title, items: items,
-                                    anchor: title.replace(' ','-').toLowerCase()]);
+                                    anchor: title.replace(' ','-').replace('.','').toLowerCase()]);
                                 items = [];
                             }
                             title = it.substring(it.indexOf(' ') + 1);
@@ -112,14 +112,14 @@ along with this software (see the LICENSE.md file). If not, see
                         if (it.startsWith('## ')) {
                             Map item = [text: it.substring(it.indexOf(' ') + 1),
                                         anchor: it.substring(it.indexOf(' ') + 1)
-                                            .replace(' ','-').toLowerCase()];
+                                            .replace(' ','-').replace('.','').toLowerCase()];
                             items.add(item);
                         }
                     }
                     if (first == false) storeInfo.menu1.add([path: '',
                         title: title, items: items,
-                        anchor: title.replace(' ','-').toLowerCase()]);
-                </script>
+                        anchor: title.replace(' ','-').replace('.','').toLowerCase()]);
+                    </script>
             </if>
         </if>
     </actions>

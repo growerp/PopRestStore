@@ -105,7 +105,8 @@ along with this software (see the LICENSE.md file). If not, see
                         if (it.startsWith('# ')) {
                             if (first == false) {
                                 storeInfo.menu1.add([path: ec.web.getPathInfo().split('/')[2],
-                                                    title: title, items: items]);
+                                                    title: title, items: items,
+                                                    anchor: title.replace(' ','-').toLowerCase()]);
                                 items = [];
                             }
                             title = it.substring(it.indexOf(' ') + 1);
@@ -119,7 +120,7 @@ along with this software (see the LICENSE.md file). If not, see
                         }
                     }
                     if (first == false) storeInfo.menu1.add([path: ec.web.getPathInfo().split('/')[2],
-                        title: title, items: items]);
+                        title: title, items: items, anchor: title.replace(' ','-').toLowerCase()]);
                 </script>
             </if>
         </if>

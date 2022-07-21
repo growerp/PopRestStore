@@ -7,7 +7,7 @@
     <div class="row mt-4">
         <div class="customer-menu col col-lg-2 col-md-3 mb-5">
 <#list top as topMenu>
-            <span class="modal-text">${topMenu.title}</span>
+            <span class="modal-text"><a href="/content/${topMenu.path}#${topMenu.anchor}">${topMenu.title}</a></span>
             <ul class="customer-orders-ul">
             <#list topMenu.items as item>
                 <li>

@@ -101,7 +101,7 @@ along with this software (see the LICENSE.md file). If not, see
                     lines.eachLine {
                         if (it.startsWith('# ')) {
                             if (first == false) {
-                                storeInfo.menu1.add([path: '',
+                                storeInfo.menu1.add([path: path,
                                     title: title, items: items,
                                     anchor: title.replace(' ','-').replace('.','').toLowerCase()]);
                                 items = [];
@@ -116,7 +116,7 @@ along with this software (see the LICENSE.md file). If not, see
                             items.add(item);
                         }
                     }
-                    if (first == false) storeInfo.menu1.add([path: '',
+                    if (first == false) storeInfo.menu1.add([path: path,
                         title: title, items: items,
                         anchor: title.replace(' ','-').replace('.','').toLowerCase()]);
                     </script>

@@ -39,7 +39,9 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.basic.Enumeration enumCode="template_client_resetPassword" description="Template Client Reset Password" enumId="PsstTemplateClientResetPassword" enumTypeId="ProductStoreSettingType"/>
     <moqui.basic.Enumeration enumCode="template_client_checkoutMessages" description="Template Client Checkout Messages" enumId="PsstTemplateClientCheckoutMessages" enumTypeId="ProductStoreSettingType"/>
 
-
+    <moqui.basic.Enumeration enumCode="template_client_style" description="Template Client Website styles in Json format" enumId="PsstTemplateClientStyle" enumTypeId="ProductStoreSettingType"/>
+    <moqui.basic.Enumeration enumCode="template_client_content" description="Template Client Contentlocation" enumId="PsstContentLocation" enumTypeId="ProductStoreSettingType"/>
+`
      <!-- server template setting types these should be moved ot mantle-udm ...-->
     <moqui.basic.Enumeration enumCode="template_server_root" description="Template Server Root" enumId="PsstTemplateServerRoot" enumTypeId="ProductStoreSettingType"/>
     <moqui.basic.Enumeration enumCode="template_server_content" description="Template Server Content" enumId="PsstTemplateServerContent" enumTypeId="ProductStoreSettingType"/>
@@ -51,6 +53,5 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.basic.Enumeration enumCode="template_server_search" description="Template Server Search" enumId="PsstTemplateServerSearch" enumTypeId="ProductStoreSettingType"/>
     <moqui.basic.Enumeration enumCode="template_server_category" description="Template Server Category" enumId="PsstTemplateServerCategory" enumTypeId="ProductStoreSettingType"/>
 
-    <!-- store setting used for dynamically setting the productStoreId depending on the hostname -->
     <moqui.basic.Enumeration enumCode="product_store_id_from_hostname" description="Product Store ID From Hostname" enumId="PsstHostname" enumTypeId="ProductStoreSettingType"/>
 </entity-facade-xml>

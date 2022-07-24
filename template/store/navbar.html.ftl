@@ -1,23 +1,11 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="d-flex flex-column moqui-navbar">
         <div class="container d-flex flex-row main-navbar">         
-                <#--  This renders the logo dynamically for the main store  -->
-                
-            <#assign headerLogoList = sri.getThemeValues("STRT_HEADER_LOGO")>
-            <#if headerLogoList?has_content>
-                <a href="/" class="navbar-brand d-none d-sm-block">
-                    <img height="60px" class="moqui-dynamic" src="/getLogo" alt="Home">
-                    <span class="font-italic navbar-title">${storeInfo.productStore.storeName}</span>
-                </a>
-            </#if>
-            <a class="navbar-brand d-block d-sm-none" href="/">
-                <span class="font-italic navbar-title">POP Shop</span>
+            <#--  This renders the logo dynamically for the main store  -->
+            <a href="/" class="navbar-brand d-none d-sm-block">
+                <img height="60px" class="moqui-dynamic" src="/getLogo" alt="Home">
+                <span  id="myNavBar" class="font-italic navbar-title">${storeInfo.productStore.storeName}</span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_collapse1" 
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
             <div class="navbar-collapse collapse">
                 <form id="form-search" class="search-input" action="#">
                     <input type="text" placeholder="Search..." name="search" id="search" value="${(searchParameter!'')?html}">

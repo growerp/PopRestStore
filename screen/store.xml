@@ -129,6 +129,32 @@ var storeInfo = ${storeInfoJson};
         <!-- cartInfo for cart count in header/navbar -->
         <service-call name="popstore.CartServices.get#CartInfo" out-map="cartInfo" in-map="context"/>
 
+        <!-- get css data in json format -->
+        <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/websiteColor.json"/>
+        <set field="contentRef" from="ec.resource.getLocationReference(location)"/>
+        <if condition="contentRef != null">
+            <set field="style" from="contentRef.getText()"/>
+            <else>
+                <set field="style" from="[:]"/>
+            </else>
+        </if>
+        <!-- create own version of styles.css -->
+        <script>
+            import groovy.json.JsonSlurper
+            // get settings
+            JsonSlurper slurper = new JsonSlurper()
+            context.putAll(slurper.parseText(style))
+            // get target filepath
+            newRef = ec.resource.getLocationReference("component://PopRestStore/screen/store/components/styles/${storeInfo.productStore.productStoreId}.css")
+            String newFilePath = newRef.getUrl().toExternalForm().substring(5)
+            // render ftl file
+            String location = "component://PopRestStore/screen/store/components/styles.css.ftl"
+            css = ec.resource.getTemplateRendererByLocation(location)
+            Writer fw = new FileWriter(newFilePath)
+            css.render(location, fw)
+            fw.close()
+      </script>
+
         <!-- get settings used in subscreens -->
         <set field="template_server_root" from="storeInfo.settings.template_server_root" default-value="component://PopRestStore/template/store/root.html.ftl"/>
         <set field="template_server_header" from="storeInfo.settings.template_server_header" default-value="component://PopRestStore/template/store/navbar.html.ftl"/>

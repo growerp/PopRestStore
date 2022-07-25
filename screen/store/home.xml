@@ -85,11 +85,10 @@ along with this software (see the LICENSE.md file). If not, see
         </if>
         <set field="path" from="storeInfo.menu.find{ it.title.toLowerCase().startsWith('home')}?.path"/>
         <if condition="path">
-            <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/${path}.md.ftl"/>
+            <set field="homeLocation" value="${storeInfo.settings.PsstContentLocation}/content/${path}.md.ftl"/>
         </if>
-
         <!-- create content menu -->
-        <set field="docRr" from="ec.resource.getLocationReference(location)"/>
+        <set field="docRr" from="ec.resource.getLocationReference(homeLocation)"/>
         <if condition="docRr != null">
             <set field="lines" from="docRr.getText()"/>
             <if condition="lines">
@@ -125,11 +124,11 @@ along with this software (see the LICENSE.md file). If not, see
     </actions>
 
     <widgets>
-        <section name="home" condition="location">
+        <section name="home" condition="homeLocation">
             <widgets>
                 <render-mode><text type="html" location="${template_server_header}"/></render-mode>
                 <render-mode><text type="html" location="component://PopRestStore/template/store/content1.html.ftl"/></render-mode>
-                <render-mode><text type="html" location="${location}"/></render-mode>
+                <render-mode><text type="html" location="${homeLocation}"/></render-mode>
                 <render-mode><text type="html" location="component://PopRestStore/template/store/content2.html.ftl"/></render-mode>
                 <render-mode><text type="html" location="${template_server_home}"/></render-mode>
                 <render-mode><text type="html" location="${template_server_footer}"/></render-mode>

@@ -132,11 +132,12 @@ var storeInfo = ${storeInfoJson};
         <!-- get css data in json format -->
         <set field="location" value="${storeInfo.settings.PsstContentLocation}/content/websiteColor.json"/>
         <set field="contentRef" from="ec.resource.getLocationReference(location)"/>
+        <set field="style" value="{}"/>
         <if condition="contentRef != null">
-            <set field="style" from="contentRef.getText()"/>
-            <else>
-                <set field="style" from="[:]"/>
-            </else>
+            <set field="text" from="contentRef.getText()"/>
+            <if condition="text != null">
+                <set field="style" from="text"/>
+            </if>
         </if>
         <!-- create own version of styles.css -->
         <script>

@@ -2,6 +2,7 @@
     <div class="row mt-4">
         <div class="customer-menu col col-lg-2 col-md-3 mb-5">
 <#list storeInfo.menu1 as topMenu>
+    <#if topMenu.title != 'obsidian'>
             <span class="modal-text"><a href="/content/${topMenu.path}#${topMenu.anchor}">${topMenu.title}</a></span>
             <ul class="customer-orders-ul">
             <#list topMenu.items as item>
@@ -10,8 +11,25 @@
                 </li>
             </#list>
             </ul>
+    <#else>
+        <#list topMenu.items as item>
+            <ul class="customer-orders-ul">
+            <@showPage item />
+            </ul>
+        </#list>
+    </#if>
 </#list>
-            <#--a href="/content/about" class="customer-link">About this Shop</a>
-            <a href="/content/contact" class="customer-link">Contact Us</a-->
+
         </div>
         <div class="col col-lg-9 offset-lg-1 col-12">
+
+<#macro showPage page>
+    <li>
+        <a href="/content/${page.path}">${page.title}</a>
+    </li>
+    <#list page.items as item>
+        <ul class="customer-orders-ul">
+        <@showPage item />
+        </ul>
+    </#list>
+</#macro>

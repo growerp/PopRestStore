@@ -59,7 +59,11 @@
                     </div>
                 </li>
                 <#else>
-                    <a class="nav-link" href="/content/${topItem.path}">
+                    <#if topItem.path == 'obsidian'>
+                        <a class="nav-link" href="/${topItem.path}">
+                    <#else>    
+                        <a class="nav-link" href="/content/${topItem.path}">
+                    </#if>
                         ${topItem.title}
                     </a>
                 </#if>

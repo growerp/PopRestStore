@@ -16,15 +16,15 @@ a:hover { text-decoration: none; }
 .customer-link i { margin-left: 10px; color: #e7e7e7; }
 
 /* Navbar */
-.moqui-navbar { width: 100%; background: #039be5; text-align: center !important; }
-.bg-dark { background: #039be5 !important; }
+.moqui-navbar { width: 100%; background: #333333; text-align: center !important; }
+.bg-dark { background: #333333 !important; }
 .moqui-navbar .moqui-logo { width: 50px; height: 50; margin-top: 10px; margin-right: 30px;}
 .moqui-logo1 { margin-top: -30px; margin-left: -10px; }
 
 .moqui-dynamic { width: 60px; margin-top: -20px; margin-left: -10px; margin-right: 30px; }
 
-.navbar-dark .navbar-nav .nav-link { color: #ff5722; }
-.navbar-title { margin-top: 10px; margin-left: -20px; display: inline-block; font-size: 2em; color: #ff5722; font-weight: bold; }
+.navbar-dark .navbar-nav .nav-link { color: #fff; }
+.navbar-title { margin-top: 10px; margin-left: -20px; display: inline-block; font-size: 2em; color: #fff; font-weight: bold; }
 .navbar-pop-title { color: #999999; font-size: 1.1em; display: inline-block; }
 .navbar-pop-subtitle { display: inline-block; font-size: 0.9em; color: #999999; margin-top: -5px; }
 
@@ -43,13 +43,13 @@ a:hover { text-decoration: none; }
 
 /* Footer */
 
-.footer { background-color: #039be5; color: #fff; padding: 30px; position: relative; width: 100%; bottom: 0px;}
+.footer { background-color: #fff; color: #fff; padding: 30px; position: relative; width: 100%; bottom: 0px;}
 .footer p { font-size: 0.8em; color: #04c3d5; }
 .footer-ul { list-style-type: none; font-size: 0.8em; }
 .footer-ul li { margin-top: 10px; cursor: pointer; }
 .footer-follow-text { color: #8d8d8d; }
 .footer-icons { font-size: 1.9em; margin-right: 10px; }
-.footer-a { color: #039be5 !important; }
+.footer-a { color: #fff !important; }
 
 /* Home/Landing */
 .features { background: #05c3d5; color: #fff; padding-top: 10px; }
@@ -145,7 +145,7 @@ a:hover { text-decoration: none; }
 .hr-complete { background-color: #04c3d5; height: 1px; margin-top: -10px; }
 
 .order-navbar { height: 85px; }
-.order-navbar-title { position: absolute; display: inline-block; font-size: 2.3em; color: #ff5722; margin-left: -10px; margin-top: 5px; font-weight: bold; }
+.order-navbar-title { position: absolute; display: inline-block; font-size: 2.3em; color: #fff; margin-left: -10px; margin-top: 5px; font-weight: bold; }
 .order-navbar-circle { width: 40px; height: 40px; color: #999999; border: 1px solid #999999; border-radius: 50%;
     text-align: center; display: flex; justify-content: center; align-items: center; font-size: 1.5em; }
 .order-navbar-circle-red { color: #fff; background-color: #dd6231; border: none; }

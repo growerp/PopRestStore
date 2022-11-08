@@ -86,7 +86,6 @@ along with this software (see the LICENSE.md file). If not, see
 
     <actions>
         <set field="extraPathNameList" from="sri.screenUrlInfo.extraPathNameList"/>
-        <log message="====c==wikiSpaceId : $wikiSpaceId========extraPathNameList: ${extraPathNameList} pathInfo: ${ec.web.getPathInfo()}"/>
         <service-call name="org.moqui.impl.WikiServices.get#PublishedWikiPageText" out-map="context"
                 in-map="[wikiSpaceId:wikiSpaceId, pagePath:extraPathNameList?.join('/')]"/>
 
@@ -94,7 +93,6 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="location" value="${storeInfo.settings.PsstContentLocation}${ec.web.getPathInfo()}.md"/>
         <if condition="extraPathNameList[0] != 'obsidian' "><!-- cater for old filenames -->
             <set field="location" from="location + '.ftl'"/></if>
-        <log message="==content location: $location"/>
         <if condition="extraPathNameList[0] == 'obsidian' ">
             <entity-find entity-name="moqui.resource.wiki.WikiPage" list="obsidianList">
                 <econdition field-name="wikiSpaceId"/>
@@ -107,16 +105,13 @@ along with this software (see the LICENSE.md file). If not, see
                 List currentList = []
                 int menuIndex = 0
                 obsidianList.each { // sequence through the pages
-                    logger.info("== path: ${it.pagePath}")
                     List pathList = it.pagePath.split('/')
 
                     // find the correct current list
                     currentList = storeInfo.menu1
                     for(int i in 0..pathList.size()-1) { // sequence through the levels
                         menuIndex = currentList.findIndexOf { 
-                            logger.info("===processing path: ${it.title}")
                             it.title == pathList[i] }
-                        logger.info("=== looking for ${pathList[i]} result: $menuIndex")
                         if (menuIndex == -1) {
                             currentList.add([
                                 path: it.pagePath,
@@ -127,7 +122,7 @@ along with this software (see the LICENSE.md file). If not, see
                     }
                 }
             </script>
-            <log message="=====list: ${storeInfo.menu1}"/>
+
             <else>
                 <script>
                     storeInfo.menu1 = []

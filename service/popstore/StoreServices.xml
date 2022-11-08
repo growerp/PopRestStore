@@ -172,7 +172,7 @@ along with this software (see the LICENSE.md file). If not, see
             </entity-find>
             <if condition="checkObsidian">
                 <script>
-                Map menuItem = [items: [], path: checkObsidian[0].pagePath, title: 'Obsidian'];
+                Map menuItem = [items: [], path: checkObsidian[0].pagePath, title: productStore.profileUrlPath];
                 menu.add(menuItem);
                 </script>
             </if>

@@ -1,6 +1,6 @@
 <div class="container container-top">
     <div class="row mt-4">
-        <div class="customer-menu col col-lg-2 col-md-3 mb-5">
+        <div class="customer-menu col col-lg-3 col-md-3 mb-5">
 <#list storeInfo.menu1 as topMenu>
     <#if topMenu.title != 'obsidian'>
             <span class="modal-text"><a href="/content/${topMenu.path}#${topMenu.anchor}">${topMenu.title}</a></span>
@@ -21,7 +21,7 @@
 </#list>
 
         </div>
-        <div class="col col-lg-9 offset-lg-1 col-12">
+        <div class="col col-lg-8 offset-lg-1 col-12">
 
 <#macro showPage page>
     <li>

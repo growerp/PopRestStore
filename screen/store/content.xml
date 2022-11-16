@@ -107,7 +107,7 @@ along with this software (see the LICENSE.md file). If not, see
                 obsidianList.each { // sequence through the pages
                     List pathList = it.pagePath.split('/')
 
-                    // find the correct current list
+                    // find the correct current list when not found create
                     currentList = storeInfo.menu1
                     for(int i in 0..pathList.size()-1) { // sequence through the levels
                         menuIndex = currentList.findIndexOf { 

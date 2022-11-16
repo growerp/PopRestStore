@@ -72,6 +72,9 @@ along with this software (see the LICENSE.md file). If not, see
             </entity-find>
             <if condition="storeImages">
                 <script>ec.web.sendResourceResponse(storeImages[0].contentLocation, true)</script>
+                <else>
+                    <script>logger.error("== image: ${sri.screenUrlInfo.extraPathNameList.join('/')} not found")</script>
+                </else>
             </if>
         </actions><default-response type="none"/>
     </transition>

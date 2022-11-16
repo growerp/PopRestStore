@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="/components/styles/${storeInfo.productStore.productStoreId}.css">
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/favicon.png" sizes="32x32"/>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${storeInfo.settings.measurementId}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${storeInfo.settings.measurementId}');
+    </script>
 </head>
 
 <body>

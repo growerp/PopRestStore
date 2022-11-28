@@ -83,10 +83,11 @@ along with this software (see the LICENSE.md file). If not, see
         <if condition="specialInstrLocation">
             <set field="specialInstructions" from="ec.resource.getLocationText(specialInstrLocation, true)"/>
         </if>
-        <set field="path" from="storeInfo.menu.find{ it.title.toLowerCase().startsWith('home')}?.path"/>
-        <if condition="path">
-            <set field="homeLocation" value="${storeInfo.settings.PsstContentLocation}/content/${path}.md.ftl"/>
+        <set field="path" from="storeInfo.menu.find{ it.title?.toLowerCase()?.startsWith('home')}?.path"/>
+        <if condition="!path">
+            <set field="path" from="storeInfo.menu[0].path"/>
         </if>
+        <set field="homeLocation" value="${storeInfo.settings.PsstContentLocation}/content/${path}.md.ftl"/>
         <!-- create content menu -->
         <set field="docRr" from="ec.resource.getLocationReference(homeLocation)"/>
         <if condition="docRr != null">

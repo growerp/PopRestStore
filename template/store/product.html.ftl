@@ -35,7 +35,7 @@
                             </#if>
                         </#if>
                     </#if>
-                    <#if img.productContentTypeEnumId == "PcntImageLarge">
+                    <#if img.productContentTypeEnumId == "PcntImageSmall">
                         <#assign imgExists = true/>
                         <img onClick="changeLargeImage('${img.productContentId}');"
                             class="figure-img img-fluid product-img"
@@ -131,7 +131,7 @@
                         </div>
                     </#if>
                 </div>
-                <#if inStock>
+                <#if inStock || product.requireInventory == 'N'>
                     <button onclick="onClickAddButton();" id="cartAdd" class="btn cart-form-btn col" type="submit" onclick="">
                         <i class="fa fa-shopping-cart"></i> Add to Cart
                     </button>

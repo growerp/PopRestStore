@@ -92,7 +92,7 @@
     </#if>
     <#if promoProductList?has_content && featureProductList?has_content><hr/></#if>
     <#if featureProductList?has_content>
-        <div class="text-left mt-3 modal-text">Best Sellers</div>
+        <div class="text-left mt-3 modal-text">Featured</div>
         <div class="carousel">
             <div class="container text-center my-3">
                 <div class="row mx-auto my-auto">

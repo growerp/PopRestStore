@@ -18,6 +18,7 @@ along with this software (see the LICENSE.md file). If not, see
 
     <service verb="login" noun="Customer">
         <in-parameters>
+            <parameter name="ownerPartyId" required="true"/>
             <parameter name="username" required="true"/>
             <parameter name="password" required="true"/>
         </in-parameters>
@@ -29,15 +30,50 @@ along with this software (see the LICENSE.md file). If not, see
         </out-parameters>
         <actions>
             <set field="forcePasswordChange" value="false" type="Boolean"/>
-            <entity-find-one entity-name="moqui.security.UserAccount" value-field="userAccount" cache="false">
+            <entity-find-one entity-name="moqui.security.UserAccount"
+                value-field="userAccount" cache="false">
                 <field-map field-name="username"/></entity-find-one>
+
             <if condition="userAccount?.requirePasswordChange == 'Y'">
                 <set field="forcePasswordChange" value="true" type="Boolean"/>
                 <return/>
             </if>
 
+            <!-- get topOwnerpartyId -->
+            <entity-find entity-name="mantle.party.PartyRelationship" list="getOwners">
+                <econdition field-name="fromPartyId" from="ownerPartyId"/>
+                <econdition field-name="relationshipTypeEnumId" value="PrtOrgRollup"/>
+                <date-filter/>
+            </entity-find>
+            <set field="topOwnerPartyId" from="getOwners[0].toPartyId"/>
+            <!-- get related customer company -->
+            <entity-find entity-name="mantle.party.PartyRelationship"
+                list="getCompany" limit="1">
+                <econdition field-name="fromPartyId" from="userAccount.partyId"/>
+                <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
+                <date-filter/>
+            </entity-find>
+            <!-- check if connected to top owner -->
+            <entity-find entity-name="mantle.party.PartyRelationship"
+                list="checkCustomerOwner" limit="1">
+                <econdition field-name="fromPartyId" from="getCompany[0].toPartyId"/>
+                <econdition field-name="relationshipTypeEnumId" value="PrtOrgRollup"/>
+                <econdition field-name="toPartyId" from="topOwnerPartyId"/>
+                <date-filter/>
+            </entity-find>
+            <if condition="!checkCustomerOwner">
+                <!-- add connect to top owner as customer-->
+                <service-call name="create#mantle.party.PartyRelationship"
+                    in-map="[   fromPartyId: getCompany[0].toPartyId,
+                                fromRoleTypeId: 'Customer',
+                                toPartyId: topOwnerPartyId,
+                                toRoleTypeId: 'Owner',
+                                relationshipTypeEnumId: 'PrtOrgRollup',
+                                fromDate: ec.user.nowTimestamp
+                                ]"/>
+            </if>
+            <script>ec.user.logoutUser()</script>
             <script>ec.user.loginUser(username, password)</script>
-
             <service-call name="popstore.CustomerServices.postLogin#Customer" in-map="context" out-map="context"/>
             <!-- create the login key to return -->
             <set field="apiKey" from="ec.user.getLoginKey()"/>
@@ -52,10 +88,13 @@ along with this software (see the LICENSE.md file). If not, see
             <if condition="ec.user.userAccount != null">
                 <set field="customerPartyId" from="ec.user.userAccount.partyId"/>
                 <!-- get related company -->
-                <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
+                <entity-find entity-name="mantle.party.PartyRelationship"
+                        list="getCompany" limit="1">
                     <econdition field-name="fromPartyId" from="customerPartyId"/>
-                    <date-filter/></entity-find>
-                <set field="companyPartyId" from="rel[0].toPartyId"/>
+                    <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
+                    <date-filter/>
+                </entity-find>    
+                <set field="companyPartyId" from="getCompany[0].toPartyId"/>
                 <!-- NOTE: use the web session for attributes such as cartOrderId for security; this won't work in a stateless mode or outside a web session -->
                 <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
                 <set field="sessionAttributes.customerPartyId" from="customerPartyId"/>
@@ -400,6 +439,10 @@ along with this software (see the LICENSE.md file). If not, see
             <set field="orderId" from="cartOrderId"/>
 
             <!-- TODO: if no customerPartyId call service to create one now and set in session (no user account aka 'anonymous') -->
+
+            <!-- set gateway info -->
+            <set field="gatewayCimId" from="companyPartyId"/>
+            <set field="paymentGatewayConfigId" from="System.getProperty('paymentGatewayConfigId')"/>
 
             <service-call name="mantle.account.PaymentMethodServices.store#PaymentMethodInfo" in-map="context" out-map="context"/>
 

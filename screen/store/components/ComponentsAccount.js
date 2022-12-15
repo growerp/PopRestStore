@@ -7,7 +7,7 @@ var ACCOUNT_UPDATED = "accountUpdated";
 storeComps.LoginPage = {
     name: "login",
     data: function() {
-        var user = {username: this.$root.username, password: ""};
+        var user = {ownerPartyId: this.$route.params.ownerPartyId ,username: this.$root.username, password: ""};
         if(window.location.href.indexOf("localhost") >= 0) {
             user.password = 'qqqqqq9!';
         }

@@ -88,7 +88,6 @@ General Order Placement and eCommerce Usage
         <actions>
             <service-call name="popstore.CartServices.get#ActiveOrderAndCustomer" out-map="context"/>
             <if condition="!customerPartyId"><return message="No active customer, cannot view order" public="true" type="danger"/></if>
-
             <entity-find entity-name="OrderPart" list="orderPartList">
                 <econdition field-name="orderId"/>
                 <econdition field-name="customerPartyId" from="companyPartyId"/></entity-find>
@@ -133,7 +132,6 @@ General Order Placement and eCommerce Usage
             <entity-find-related value-field="orderHeader" relationship-name="mantle.account.payment.Payment"
                     list="paymentList" order-by-list="['paymentId']"/>
             <set field="paymentList" from="paymentList.findAll{ it.paymentInstrumentEnumId == 'PiCreditCard'}"/>
-
             <script><![CDATA[
                 import org.moqui.entity.EntityList
                 import org.moqui.entity.EntityValue
@@ -141,6 +139,7 @@ General Order Placement and eCommerce Usage
                 paymentInfoList = []
                 paymentsTotal = 0.0
                 for (EntityValue payment in paymentList) {
+                    logger.info("=======processing payment: $payment");
                     if (!(((String) payment.statusId) in ['PmntCancelled', 'PmntVoid', 'PmntDeclined']))
                         paymentsTotal += (payment.amount ?: 0)
                     Map paymentInfo = [payment:payment, statusItem:payment.status]
@@ -167,6 +166,7 @@ General Order Placement and eCommerce Usage
                 postalAddress = (EntityValue) orderPart.'mantle.party.contact.PostalAddress'
                 postalAddressStateGeo = (EntityValue) postalAddress?."StateProvince#moqui.basic.Geo"
                 telecomNumber = (EntityValue) orderPart.'mantle.party.contact.TelecomNumber'
+                logger.info("=====output orderInfoInternal paymentInfoList: $paymentInfoList")
             ]]></script>
         </actions>
     </service>
@@ -312,6 +312,7 @@ General Order Placement and eCommerce Usage
             <service-call name="popstore.CartServices.get#ActiveOrderAndCustomer" out-map="context"/>
             <if condition="!cartOrderId"><return message="Cart is empty" public="true" type="warning"/></if>
             <set field="orderId" from="cartOrderId"/>
+            <set field="paymentInstrumentEnumId" value="PiCreditCard"/>
 
             <!-- TODO: if no customerPartyId call service to create one now and set in session (no user account aka 'anonymous') -->
 
@@ -387,14 +388,17 @@ General Order Placement and eCommerce Usage
             <set field="customerPartyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.customerPartyId"/>
             <set field="sessionAttributes.customerPartyId" from="customerPartyId"/>
 
-            <!-- get related company -->
+            <!-- get related company of the employee-->
             <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
                 <econdition field-name="fromPartyId" from="customerPartyId"/>
+                <econdition field-name="fromRoleTypeId" value="Employee"/>
+                <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
                 <date-filter/>
             </entity-find>
             <if condition="rel"><set field="relCompanyPartyId" from="rel[0].toPartyId"/></if>
             <set field="companyPartyId" from="relCompanyPartyId ?: sessionAttributes.companyPartyId"/>
             <set field="sessionAttributes.companyPartyId" from="companyPartyId"/>
+            <log message=" customer partyId: $customerPartyId rel company: $companyPartyId"/>
 
             <if condition="!cartOrderId &amp;&amp; companyPartyId">
                 <!-- see if there is an open order for user and get that ID into session -->

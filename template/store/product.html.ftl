@@ -12,7 +12,7 @@
 <div class="container container-text mt-1">
     <#if addedCorrect?? && addedCorrect == 'true'>
         <div class="alert alert-primary mt-3 mb-3" role="alert">
-            <i class="far fa-check-square"></i> You added a ${product.productName} ${product.priceUomId} ${product.price} to your shopping cart.
+            <i class="far fa-check-square"></i> You added ${product.productName} to your shopping cart.
             <a class="float-right" href="/d#/checkout/${storeInfo.productStore.organizationPartyId}">Go to Checkout <i class="fas fa-arrow-right"></i></a>
         </div>
     </#if>
@@ -100,15 +100,20 @@
                         <input type="hidden" value="${product.priceUomId}" name="currencyUomId" />
                         <input type="hidden" value="${ec.web.sessionToken}" name="moquiSessionToken"/>
                         <span class="product-description">Quantity</span>
-                        <select class="form-control text-gdark" name="quantity" id="quantity">
-                            <#if productQuantity.productQuantity??>
-                                <#list 1..productQuantity.productQuantity as x>
-                                    <option value="${x}">${x}</option>
-                                </#list>
-                            <#else>
-                                <option value="0">0</option> 
-                            </#if>
-                        </select>
+                        <#if product.productTypeEnumId == 'PtAsset'>
+                            <select class="form-control text-gdark" name="quantity" id="quantity">
+                                <#if productQuantity.productQuantity??>
+                                    <#list 1..productQuantity.productQuantity as x>
+                                        <option value="${x}">${x}</option>
+                                    </#list>
+                                <#else>
+                                    <option value="0">0</option>
+                                </#if>
+                            </select>
+                        </#if>
+                        <#if product.productTypeEnumId == 'PtService'>
+                            <input type="text" name="quantity" id="quantity" value="1">
+                        </#if>
                     </div>
                     <#if isVirtual>
                         <div class="form-group col">

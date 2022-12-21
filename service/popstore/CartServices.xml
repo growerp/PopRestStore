@@ -375,7 +375,7 @@ General Order Placement and eCommerce Usage
             <parameter name="productStoreId"/>
             <parameter name="cartOrderId"/>
             <parameter name="customerPartyId"/>
-            <parameter name="companyPartyId"/>
+            <parameter name="companyPartyId"/><!-- customer company -->
         </out-parameters>
         <actions>
             <!-- NOTE: use the web session for attributes such as cartOrderId for security; this won't work in a stateless mode or outside a web session -->
@@ -398,7 +398,6 @@ General Order Placement and eCommerce Usage
             <if condition="rel"><set field="relCompanyPartyId" from="rel[0].toPartyId"/></if>
             <set field="companyPartyId" from="relCompanyPartyId ?: sessionAttributes.companyPartyId"/>
             <set field="sessionAttributes.companyPartyId" from="companyPartyId"/>
-            <log message=" customer partyId: $customerPartyId rel company: $companyPartyId"/>
 
             <if condition="!cartOrderId &amp;&amp; companyPartyId">
                 <!-- see if there is an open order for user and get that ID into session -->
@@ -413,6 +412,7 @@ General Order Placement and eCommerce Usage
                     <set field="sessionAttributes.cartOrderId" from="cartOrderId"/>
                 </if>
             </if>
+            <!--log message=" ======== ps: $productStoreId or:$cartOrderId cus:$customerPartyId comp:$companyPartyId"/-->
         </actions>
     </service>
 </services>

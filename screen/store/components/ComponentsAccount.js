@@ -39,13 +39,12 @@ storeComps.LoginPage = {
                         this.$router.push({ name: preLoginRoute.name});
                     }
                 }
-            }.bind(this))
-            .catch(function (error) { 
-                if(!!error.response && !!error.response.headers){
+            }.bind(this)).catch(function (error) {
+                if(!!error.response.headers.moquisessiontoken){
                     this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
                     this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
-                }                
-                this.loginErrormessage = error.response.data.errors; 
+                }
+                this.loginErrormessage = error.response.data.errors;
             }.bind(this));
         },
         checkLoginState: function() {
@@ -106,8 +105,11 @@ storeComps.LoginPage = {
                 this.user.username = this.passwordInfo.username;
                 this.user.password = this.passwordInfo.newPassword;               
                 this.login();
-            }.bind(this))
-            .catch(function (error) {
+            }.bind(this)).catch(function (error) {
+                if(!!error.response.headers.moquisessiontoken){
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                }
                 this.responseMessage = error.response.data.errors;
             }.bind(this));
         },
@@ -142,7 +144,13 @@ storeComps.ResetPasswordPage = {
             LoginService.resetPassword(this.data, this.axiosConfig).then(function (data) {
                 this.nextStep = 1;
                 this.responseMessage = "";
-            }.bind(this)).catch(function (error) { this.responseMessage = error.response.data.errors; }.bind(this));
+            }.bind(this)).catch(function (error) {
+                if(!!error.response.headers.moquisessiontoken){
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                }
+                this.responseMessage = error.response.data.errors;
+            }.bind(this));
         },
         changePassword: function(event) {
             event.preventDefault();
@@ -166,8 +174,11 @@ storeComps.ResetPasswordPage = {
             CustomerService.updateCustomerPassword(this.passwordInfo, this.axiosConfig).then(function (data) {
                 this.responseMessage = data.messages;
                 this.login();
-            }.bind(this))
-            .catch(function (error) {
+            }.bind(this)).catch(function (error) {
+                if(!!error.response.headers.moquisessiontoken){
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                }
                 this.responseMessage = error.response.data.errors;
             }.bind(this));
         },
@@ -178,10 +189,11 @@ storeComps.ResetPasswordPage = {
                 this.$root.moquiSessionToken = data.moquiSessionToken;
                 this.$router.push({ name: 'account'});
             }.bind(this)).catch(function (error) {
-                if(!!error.response && !!error.response.headers){
+                if(!!error.response.headers.moquisessiontoken){
                     this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
                     this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
                 }
+                this.errorMessage = error.response.data.errors;
             }.bind(this));
         }
     },
@@ -292,7 +304,11 @@ storeComps.AccountPage = {
                 this.responseMessage = data.messages.replace("null",this.customerInfo.username);
                 this.passwordInfo = {};
             }.bind(this)).catch(function (error) {
-                    this.responseMessage = "An error occurred: " + error.response.data.errors;
+                if(!!error.response.headers.moquisessiontoken){
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                }
+                this.responseMessage = "An error occurred: " + error.response.data.errors;
             }.bind(this));
         },
         scrollTo: function(refName) {
@@ -446,7 +462,8 @@ storeComps.CreateAccountPage = {
                 window.dispatchEvent(event);
                 this.$router.push({ name: 'login'});
             }.bind(this)).catch(function (error) {
-                if(!!error.response && !!error.response.headers){
+                if(!!error.response.headers.moquisessiontoken){
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
                     this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
                 }
                 this.errorMessage = "An error occurred: " + error.response.data.errors;
@@ -465,7 +482,8 @@ storeComps.CreateAccountPage = {
                 }
                 
             }.bind(this)).catch(function (error) {
-                if(!!error.response && !!error.response.headers){
+                if(!!error.response.headers.moquisessiontoken){
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
                     this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
                 }
                 this.errorMessage = error.response.data.errors;

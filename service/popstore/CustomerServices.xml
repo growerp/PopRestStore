@@ -34,6 +34,9 @@ along with this software (see the LICENSE.md file). If not, see
                 value-field="userAccount" cache="false">
                 <field-map field-name="username"/></entity-find-one>
 
+            <if condition="!userAccount">
+                <return error="true" message="$username not found, please create an account"/></if>
+
             <if condition="userAccount?.requirePasswordChange == 'Y'">
                 <set field="forcePasswordChange" value="true" type="Boolean"/>
                 <return/>
@@ -309,20 +312,28 @@ along with this software (see the LICENSE.md file). If not, see
             <parameter name="firstName"/><parameter name="middleName"/><parameter name="lastName"/>
             <parameter name="locale"/><parameter name="timeZone"/><parameter name="disabled"/>
             <parameter name="emailAddress"/><parameter name="telecomNumber"/>
+            <parameter name="companyName"/>
         </out-parameters>
         <actions>
             <!-- NOTE: use the web session for attributes such as customerPartyId for security; this won't work in a stateless mode or outside a web session -->
             <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
-
             <set field="userId" from="ec.user.userId"/>
             <set field="partyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.customerPartyId"/>
             <if condition="!partyId"><return message="No active customer"/></if>
 
-            <!-- TODO: handle Organization type parties, use more liberal view-entity and support 'organizationName' instead of firstName/lastName in the UI -->
             <entity-find-one entity-name="mantle.party.PersonAndUserAccount" value-field="personAndUserAccount"/>
             <script>context.putAll(personAndUserAccount)</script>
-
-            <service-call name="mantle.party.ContactServices.get#PartyContactInfo" in-map="[partyId:partyId, telecomContactMechPurposeId: 'PhonePrimary', emailContactMechPurposeId:'EmailPrimary']" out-map="context"/>
+            <!-- get company name -->
+            <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
+                <econdition field-name="fromPartyId" from="partyId"/>
+                <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
+                <date-filter/></entity-find>
+            <entity-find-one entity-name="mantle.party.Organization" value-field="company">
+                <field-map field-name="partyId" from="rel.toPartyId"/></entity-find-one>
+            <set field="companyName" from="company.organizationName"/>
+            <service-call name="mantle.party.ContactServices.get#PartyContactInfo"
+                in-map="[partyId:partyId, telecomContactMechPurposeId: 'PhonePrimary',
+                        emailContactMechPurposeId:'EmailPrimary']" out-map="context"/>
         </actions>
     </service>
 
@@ -380,16 +391,17 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <!-- NOTE: use the web session for attributes such as customerPartyId for security; this won't work in a stateless mode or outside a web session -->
             <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
-            <set field="partyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.customerPartyId"/>
+            <set field="partyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.companyPartyId"/>
             <if condition="!partyId"><return message="No active customer"/></if>
 
             <!-- get related company -->
             <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
                 <econdition field-name="fromPartyId" from="partyId"/>
+                <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
                 <date-filter/>
             </entity-find>
             <if condition="rel">
-                <set field="companyPartyId" from="rel[0].toPartyId"/>
+                <set field="companyPartyId" from="rel[0].toPartyId ?: sessionAttributes.companyPartyId"/>
             </if>
             <service-call name="mantle.account.PaymentMethodServices.get#PartyPaymentMethodInfoList"
                     in-map="[partyId:companyPartyId]" out-map="context"/>
@@ -479,15 +491,14 @@ along with this software (see the LICENSE.md file). If not, see
             <!-- get related company -->
             <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
                 <econdition field-name="fromPartyId" from="partyId"/>
+                <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
                 <date-filter/>
             </entity-find>
             <if condition="rel">
-                <set field="companyPartyId" from="rel[0].toPartyId"/>
+                <set field="companyPartyId" from="rel[0].toPartyId ?: sessionAttributes.companyPartyId"/>
             </if>
             <service-call name="mantle.party.ContactServices.get#PartyContactInfoList" out-map="shippingContactListInfo"
-                    in-map="[partyId:companyPartyId, postalContactMechPurposeId:'PostalShippingDest']"/>
-
-            
+                    in-map="[partyId:companyPartyId, postalContactMechPurposeId:'PostalShippingDest']"/>            
             <set field="postalAddressList" from="shippingContactListInfo.postalAddressList"/>
         </actions>
     </service>

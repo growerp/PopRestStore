@@ -10,7 +10,8 @@ storeComps.Navbar = {
   methods: {
     getCustomerInfo: function() { CustomerService.getCustomerInfo(this.axiosConfig).then(function (data) {
         this.customerInfo = data;
-    }.bind(this)).catch(function (error)  { console.log('An error has occurred' + error); }); },
+    }.bind(this)).catch(function (error) {
+        console.log('An error has occurred' + error); }); },
     getCartInfo: function() { ProductService.getCartInfo(this.axiosConfig).then(function (data) {
         //this.productsQuantity = data.orderItemList ? data.orderItemList.length : 0;
         if(typeof(data.orderItemList) == 'undefined') return;
@@ -351,7 +352,7 @@ storeComps.ModalCreditCard = {
             CustomerService.addPaymentMethod(this.paymentMethod,this.axiosConfig).then(function (data) {
                 this.responseMessage = "";
                 this.completeCallback(data);
-            }.bind(this)).catch(function (error) {
+            }.bind(this)).catch(function(error) {
                 var errorString = error.response.data.errors;
                 var sensitiveDataIndex = errorString.indexOf("(for field");
 

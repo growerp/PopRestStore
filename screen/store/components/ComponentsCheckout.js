@@ -274,8 +274,7 @@ storeComps.CheckOutPage = {
                 this.paymentId = data.paymentId;
                 this.getCartInfo();
                 this.getCartShippingOptions();
-            }.bind(this)).catch(function(e){
-                console.log(e);
+            }.bind(this)).catch(function(error){
                 this.listShippingOptions = currentListShippingOptions;
             }.bind(this));
         },
@@ -313,6 +312,10 @@ storeComps.CheckOutPage = {
                     this.responseMessage = data.messages;
                 }
             }.bind(this)).catch(function (error) {
+                if(!!error.response.headers.moquisessiontoken){
+                    this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                }
                 this.responseMessage = error;
                 this.showModal("modal-error");
                 this.setCurrentStep(STEP_BILLING);
@@ -352,8 +355,11 @@ storeComps.CheckOutPage = {
                             this.loading = false;
                         }.bind(this)
                     )
-                }.bind(this)).catch(function (e) {
-                    console.log(e);
+                }.bind(this)).catch(function (error) {
+                    if(!!error.response.headers.moquisessiontoken){
+                        this.axiosConfig.headers.moquiSessionToken = error.response.headers.moquisessiontoken;
+                        this.$root.moquiSessionToken = error.response.headers.moquisessiontoken;
+                    }
                     this.loading = false;
                 }.bind(this));
         },

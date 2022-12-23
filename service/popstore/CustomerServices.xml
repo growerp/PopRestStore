@@ -75,7 +75,7 @@ along with this software (see the LICENSE.md file). If not, see
                                 fromDate: ec.user.nowTimestamp
                                 ]"/>
             </if>
-            <script>ec.user.logoutUser()</script>
+            <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
             <script>ec.user.loginUser(username, password)</script>
             <service-call name="popstore.CustomerServices.postLogin#Customer" in-map="context" out-map="context"/>
             <!-- create the login key to return -->
@@ -102,7 +102,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
                 <set field="sessionAttributes.customerPartyId" from="customerPartyId"/>
                 <set field="sessionAttributes.companyPartyId" from="companyPartyId"/>
-                <set field="cartOrderId" from="ec.web.sessionAttributes.cartOrderId"/>
+                <set field="cartOrderId" from="sessionAttributes.cartOrderId"/>
 
                 <!-- see if there is an open order for user and get that ID into session -->
                 <entity-find entity-name="mantle.order.OrderHeaderAndPart" list="existingOrderList">
@@ -112,6 +112,7 @@ along with this software (see the LICENSE.md file). If not, see
                     <order-by field-name="-entryDate"/><!-- get most recent open order -->
                 </entity-find>
                 <if condition="existingOrderList"><then>
+                    <set field="orderPartSeqId" from="existingOrderList[0].orderPartSeqId"/>
                     <if condition="cartOrderId">
                         <!-- if a cartOrderId is in the session, merge its items into the existing order -->
                         <service-call name="mantle.order.OrderServices.merge#OrderItems"
@@ -129,15 +130,23 @@ along with this software (see the LICENSE.md file). If not, see
                         </entity-find>
                         <if condition="orderPartList">
                             <set field="orderPart" from="orderPartList[0]"/>
+                            <set field="orderPartSeqId" from="orderPart.orderPartSeqId"/>
                             <set field="orderPart.customerPartyId" from="companyPartyId"/>
                             <entity-update value-field="orderPart"/>
-                            <!-- create partParty -->
-                            <service-call name="create#mantle.order.OrderPartParty"
-                                in-map="[orderId: cartOrderId, orderPartSeqId: orderPart.orderPartSeqId,
-                                        partyId: customerPartyId, roleTypeId: 'CustomerContactPerson']"/>
                         </if>
                     </if>
                 </else></if>
+
+                <!-- create partParty when not there yet-->
+                <entity-find entity-name="mantle.order.OrderPartParty" list="partParty">
+                    <econdition field-name="orderId"/>
+                    <econdition field-name="orderPartSeqId"/>
+                </entity-find>
+                <if condition="!partParty">
+                    <service-call name="create#mantle.order.OrderPartParty"
+                        in-map="[orderId: cartOrderId, orderPartSeqId: orderPartSeqId,
+                                partyId: customerPartyId, roleTypeId: 'CustomerContactPerson']"/>
+                </if>
 
                 <set field="moquiSessionToken" from="ec.web.sessionToken"/>
 
@@ -393,16 +402,7 @@ along with this software (see the LICENSE.md file). If not, see
             <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
             <set field="partyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.companyPartyId"/>
             <if condition="!partyId"><return message="No active customer"/></if>
-
-            <!-- get related company -->
-            <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
-                <econdition field-name="fromPartyId" from="partyId"/>
-                <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
-                <date-filter/>
-            </entity-find>
-            <if condition="rel">
-                <set field="companyPartyId" from="rel[0].toPartyId ?: sessionAttributes.companyPartyId"/>
-            </if>
+            <set field="companyPartyId" from="sessionAttributes.companyPartyId"/>
             <service-call name="mantle.account.PaymentMethodServices.get#PartyPaymentMethodInfoList"
                     in-map="[partyId:companyPartyId]" out-map="context"/>
         </actions>

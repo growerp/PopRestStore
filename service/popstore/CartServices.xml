@@ -381,24 +381,23 @@ General Order Placement and eCommerce Usage
             <!-- NOTE: use the web session for attributes such as cartOrderId for security; this won't work in a stateless mode or outside a web session -->
             <set field="sessionAttributes" from="ec.web.sessionAttributes"/>
             <set field="cartOrderId" from="sessionAttributes.cartOrderId"/>
-
             <set field="productStoreId" from="sessionAttributes.productStoreId"/>
-            <!-- TODO: if no productStoreId lookup somehow? should be set from initial call to content/config.js transition -->
-
-            <set field="customerPartyId" from="ec.user.userAccount?.partyId ?: sessionAttributes.customerPartyId"/>
-            <set field="sessionAttributes.customerPartyId" from="customerPartyId"/>
-
-            <!-- get related company of the employee-->
-            <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
-                <econdition field-name="fromPartyId" from="customerPartyId"/>
-                <econdition field-name="fromRoleTypeId" value="Employee"/>
-                <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
-                <date-filter/>
-            </entity-find>
-            <if condition="rel"><set field="relCompanyPartyId" from="rel[0].toPartyId"/></if>
-            <set field="companyPartyId" from="relCompanyPartyId ?: sessionAttributes.companyPartyId"/>
-            <set field="sessionAttributes.companyPartyId" from="companyPartyId"/>
-
+            <set field="customerPartyId" from="sessionAttributes.customerPartyId"/>
+            <set field="companyPartyId" from="sessionAttributes.companyPartyId"/>
+            <!-- user changed on the device? -->
+            <if condition="ec.user.userAccount &amp;&amp; ec.user.userAccount.partyId != sessionAttributes.customerPartyId">
+                <!-- get related company of the employee-->
+                <entity-find entity-name="mantle.party.PartyRelationship" list="rel">
+                    <econdition field-name="fromPartyId" from="ec.user.userAccount?.partyId"/>
+                    <econdition field-name="fromRoleTypeId" value="Employee"/>
+                    <econdition field-name="relationshipTypeEnumId" value="PrtEmployee"/>
+                    <date-filter/>
+                </entity-find>
+                <set field="customerPartyId" from="ec.user.userAccount?.partyId"/>
+                <set field="companyPartyId" from="rel[0].toPartyId"/>
+                <set field="sessionAttributes.customerPartyId" from="ec.user.userAccount?.partyId"/>
+                <set field="sessionAttributes.companyPartyId" from="companyPartyId"/>
+            </if>
             <if condition="!cartOrderId &amp;&amp; companyPartyId">
                 <!-- see if there is an open order for user and get that ID into session -->
                 <entity-find entity-name="mantle.order.OrderHeaderAndPart" list="existingOrderList">

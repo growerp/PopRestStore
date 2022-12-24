@@ -82,7 +82,16 @@ a:hover { text-decoration: none; }
 
 .carousel-next { right: -25px; float: right; }
 
-.carousel-prev { left: -25px; z-index: 1000; }
+.carousel-prev { left: -25px; z-index: -10000; }
+
+.carousel .carousel-control-prev,
+.carousel .carousel-control-next {
+width: 20px;
+  height: 20px;
+  background-color: none;
+  top: calc(-20% -25%);
+  opacity: .8;
+}
 
 .card-1 { display: inline-block; }
 

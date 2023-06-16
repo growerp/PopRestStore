@@ -1,3 +1,6 @@
+This is the last version of **branch 'growerp'** which was used in GrowERP V0.9.5 This repository was then copied to the https://github.com/growerp/growerp/moqui/runtime/component/PopRestStore repository and maintained from there. So now from here discontinued
+
+
 # POP REST Store - eCommerce REST API and Web App
 
 [![license](http://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/PopRestStore/blob/master/LICENSE.md)
